@@ -9,6 +9,9 @@ h2 {
 	// page-break-before: always;
 }
 
+[class^="toclimit-"] {
+	page-break-before: always;
+}
 
 .chapter {
   page-break-before: right;
