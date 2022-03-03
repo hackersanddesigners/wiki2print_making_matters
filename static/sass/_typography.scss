@@ -13,25 +13,31 @@ body {
 	@include plumber(
 			$leading-top: 0,
 			$leading-bottom: 0,
-      $baseline: $baseline-ortica
+      $baseline: $baseline-ortica,
+			$font-size: pt(9.5pt),
 	);
-	font-size: 7pt;
 }
 
 h1 {
 	@include font-combine();
-	font-size: 24pt;
+	// font-size: 24pt;
+	@include plumber(
+			$leading-top: 0,
+			$leading-bottom: 0,
+      $baseline: $baseline-combine,
+			$font-size: pt(24pt),
+	);
 }
 
 .pagedjs_pages {
-  .chapter > p {
-		@include plumber(
-			$leading-top: 0,
-			$leading-bottom: 1,
-			$baseline: $baseline-ortica,
-			$font-size: pt(9.5pt),
-		);
-	}
+  // .chapter > p {
+	// 	@include plumber(
+	// 		$leading-top: 0,
+	// 		$leading-bottom: 1,
+	// 		$baseline: $baseline-ortica,
+	// 		$font-size: pt(9.5pt),
+	// 	);
+	// }
 	.note {
     @include plumber(
 			$leading-top: 0,
@@ -48,6 +54,7 @@ h1 {
 				$font-size: pt(24pt),
 				$line-height: 3
 			);
+			text-align: center;
 		}
 		.author {
 			@include font-authentic(90);
@@ -57,8 +64,11 @@ h1 {
 				$leading-top: 0,
 				$leading-bottom: 0,
 			);
+			display: block;
+			text-align: center;
 		}
 		blockquote {
+			@include font-ortica();
 			@include plumber(
 				$baseline: $baseline-ortica,
 				$font-size: pt(8.5pt),
