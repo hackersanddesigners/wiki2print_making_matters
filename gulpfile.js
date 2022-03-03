@@ -8,10 +8,10 @@ var exec = require('child_process').exec;
 
 // Sass Task
 function scssTask(){
-  return src('./static/custom/sass/Making_Matters_Lexicon.scss', { sourcemaps: true })
+  return src('./static/sass/Making_Matters_Lexicon.scss', { sourcemaps: true })
       .pipe(sass())
       .pipe(postcss([cssnano()]))
-      .pipe(dest('./static/custom/css', { sourcemaps: '.' }));
+      .pipe(dest('./static/css', { sourcemaps: '.' }));
 }
 
 // JavaScript Task
