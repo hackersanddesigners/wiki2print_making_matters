@@ -11,10 +11,9 @@ the typeface so you find them combined in this file.
 body {
 	@include font-ortica();
 	@include plumber(
-			$leading-top: 0,
-			$leading-bottom: 0,
       $baseline: $baseline-ortica,
 			$font-size: pt(9.5pt),
+			$line-height: 1
 	);
 }
 
@@ -30,14 +29,24 @@ h1 {
 }
 
 .pagedjs_pages {
-  // .chapter > p {
-	// 	@include plumber(
-	// 		$leading-top: 0,
-	// 		$leading-bottom: 1,
-	// 		$baseline: $baseline-ortica,
-	// 		$font-size: pt(9.5pt),
-	// 	);
-	// }
+  .chapter > p {
+		@include plumber(
+			$baseline: $baseline-ortica,
+			$font-size: pt(9.5pt),
+		);
+		orphans: 5;
+		widows: 5;
+	}
+	b {
+		@include plumber(
+			$baseline: $baseline-ortica,
+			$font-size: pt(9.5pt),
+			$leading-top: 0,
+			$leading-bottom: 0,
+		);
+		padding: 0;
+		margin: 0;
+	}
 	.note {
     @include plumber(
 			$leading-top: 0,
@@ -68,17 +77,42 @@ h1 {
 			text-align: center;
 		}
 		blockquote {
-			@include font-ortica();
+			@include font-combine;
 			@include plumber(
-				$baseline: $baseline-ortica,
+				$baseline: $baseline-combine,
 				$font-size: pt(8.5pt),
-				$leading-top: 1,
-				$leading-bottom: 1,	
 			);
 			> p {
 				margin: 0;
 			}
 		}
+		ul,
+		ol,
+		dl {
+			@include plumber(
+				$baseline: $baseline-ortica,
+				$font-size: pt(9.5pt),
+			);
+		}
+		sup,
+		.footnote {
+			@include font-authentic($weight:150);
+			@include plumber(
+				$baseline: $baseline-authentic,
+				$font-size: pt(7pt),
+				$leading-top: 0,
+				$leading-bottom: 0,
+			);
+			vertical-align: top; 
+			position: relative; 
+			top: -0.2em;
+			&:after {
+				font-variant-position: initial;
+			}
+			// font-size: 7pt;
+			// line-height: 8.8pt;
+		}		
+		
 	}
 
 	/* we have to disable the baseline grid margin/padding 
@@ -131,6 +165,13 @@ h1 {
 	.tocnumber {
 		display: none;
 	}
+	.tocauthor {
+		@include font-authentic(90);
+				@include plumber(
+					$baseline: $baseline-authentic,
+					$font-size: pt(11pt),
+				);
+	}
 }
 
 .pagedjs_margin {
@@ -144,4 +185,5 @@ span.footnote {
 	font-size: 7pt;
 	line-height: 8.8pt;
 }
+
 

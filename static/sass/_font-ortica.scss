@@ -5,6 +5,12 @@
   font-weight: 300;
 }
 
+@font-face {
+  font-family: "Ortica";
+  src: url("../fonts/Ortica-Font/Ortica-Bold.woff") format("woff");
+  font-weight: 400;
+}
+
 @mixin font-ortica ( $weight: 300, $with-plumber: true ){
 	font-family: Ortica, serif;
 	font-weight: $weight;

@@ -2,15 +2,15 @@
 @import "./vendor/plumber";
 
 $baseline-ortica: 0.569;
-$baseline-combine: 0.349;
+$baseline-combine: 0.624;//0.349;
 $baseline-authentic: 0.374;
 
 @include plumber-set-defaults(
-    $grid-height: 12pt,
-    $font-size: 1,
-    $line-height: 1,
-    $leading-top: 0,
-    $leading-bottom: 0,
+    $grid-height: 6pt,
+    $font-size: 2,
+    $line-height: 2,
+    $leading-top: 1,
+    $leading-bottom: 1,
 		$baseline: $baseline-ortica,
 );
 
@@ -20,7 +20,7 @@ $baseline-authentic: 0.374;
 }
 
 @function pt($size_in_pt) {
-  $result: strip-units(calc($size_in_pt / 12));
+  $result: strip-units(calc($size_in_pt / 6));
   @return $result;
 }
 

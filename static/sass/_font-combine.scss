@@ -5,8 +5,6 @@
   font-weight: 300;
 }
 
-
-
 @mixin font-combine ( $weight: 300, $with-plumber: true ){
 	font-family: "Combine", serif;
 	font-weight: $weight;
