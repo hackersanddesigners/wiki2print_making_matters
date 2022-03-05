@@ -51,8 +51,22 @@ ready.then(async function () {
 		if (!no_p5) {
 			let numChapters = document.querySelectorAll("h1 .mw-headline").length;
 			let currChapter = 0;
-			for (const i in flow.pages) { 
-				let page = flow.pages[i]; console.log(page)
+			// for (const i in flow.pages) { 
+			// 	let page = flow.pages[i]; console.log(page)
+			// 	let hasH1 = page.area.querySelector("h1");
+			// 	if (hasH1) currChapter++;
+			// 	this.renderSketch(
+			// 		page,
+			// 		parseInt(i) + 1,
+			// 		flow.pages.length,
+			// 		numChapters,
+			// 		currChapter
+			// 	);
+			// }
+			let i = 0;
+			let render = () => {
+				let page = flow.pages[i]; 
+				console.log(page)
 				let hasH1 = page.area.querySelector("h1");
 				if (hasH1) currChapter++;
 				this.renderSketch(
@@ -62,7 +76,12 @@ ready.then(async function () {
 					numChapters,
 					currChapter
 				);
+				if(i<flow.pages.length) {
+					setTimeout(render, 10);
+					i++;
+				}
 			}
+			render(flow.pages);
 		}
 		t1 = performance.now();
 		console.log(

@@ -44,6 +44,14 @@ https://pagedjs.org/documentation/8-named-page/
 	list-style: none;
 }
 
+h1 {
+	page: chapter-title;
+}
+
+.empty-page {
+	page: empty-page !important;
+}
+
 /* Prevent superscript from messing up the line-height */
 sup { vertical-align: top; position: relative; top: -0.5em; }
 
@@ -78,6 +86,30 @@ Available color: red, green, brown
 	--base-color: brown;
 }
 
+@page chapter-title {
+	@top-center {
+    content: "";
+  }
+	@bottom-center {
+		content: "";
+	}
+}
+
+@page empty-title {
+	@top-left {
+    content: "";
+  }
+	@top-right {
+    content: "";
+  }
+	@top-center {
+    content: "";
+  }
+	@bottom-center {
+		content: "";
+	}
+}
+
 .pagedjs_intro_page + .pagedjs_blank_page {
 	--base-color: brown;
 }
@@ -86,6 +118,9 @@ Available color: red, green, brown
 	--base-color: brown;
 }
 
+.chapter-collective {
+	--base-color: brown;
+}
 
 
 /* 

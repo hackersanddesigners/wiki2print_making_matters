@@ -18,10 +18,13 @@ function renderSketch(page, num, total, numChapters, currChapter){
 			canvas.style("z-index", "-1");
 			// sketch.background(220);
 			if(!page.element.querySelector("h1")){
-			let c = getComputedStyle(page.element).getPropertyValue('--base-color').trim() || 'default';
-			let color = colors[c] || colors["default"];
-			sketch.drawPageBorder(color);
-			sketch.drawPageTop(color);
+				// let chap = page.element.getElementsByClassName('.chapter');
+				// console.log(chap)
+				// let c = getComputedStyle(page.element).getPropertyValue('--base-color').trim() || getComputedStyle(chap).getPropertyValue('--base-color').trim() || 'default';
+				let c = getComputedStyle(page.element).getPropertyValue('--base-color').trim() || 'default';
+				let color = colors[c] || colors["default"];
+				sketch.drawPageBorder(color);
+				sketch.drawPageTop(color);
 			}
 		};
 

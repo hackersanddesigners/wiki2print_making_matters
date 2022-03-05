@@ -1,6 +1,9 @@
 /* Fonts & typography & baseline grid 
 the baseline grid is tightly coupled (by Plumber) to 
 the typeface so you find them combined in this file.
+
+It intentionally verbose in declaring the styles to
+make it easier to adapt. 
 */
 
 // @import "font-literata";
@@ -33,9 +36,12 @@ h1 {
 		@include plumber(
 			$baseline: $baseline-ortica,
 			$font-size: pt(9.5pt),
+			$leading-top: 0,
+			$leading-bottom: 0,
 		);
 		orphans: 5;
 		widows: 5;
+		text-indent: 1cm;
 	}
 	b {
 		@include plumber(
@@ -61,7 +67,7 @@ h1 {
 			@include plumber(
 				$baseline: $baseline-authentic,
 				$font-size: pt(24pt),
-				$line-height: 3
+				$line-height: 6
 			);
 			text-align: center;
 		}
@@ -75,6 +81,7 @@ h1 {
 			);
 			display: block;
 			text-align: center;
+			text-indent: 0;
 		}
 		blockquote {
 			@include font-combine;
@@ -92,6 +99,8 @@ h1 {
 			@include plumber(
 				$baseline: $baseline-ortica,
 				$font-size: pt(9.5pt),
+				$leading-top: 2,
+				$leading-bottom: 0,
 			);
 		}
 		sup,
@@ -140,6 +149,7 @@ h1 {
 	}
 
 	& > ul > li {
+		margin-top: 12pt;
 		& > a .toctext { /* first level */
 			@include font-ortica();
 			@include plumber(
@@ -167,10 +177,13 @@ h1 {
 	}
 	.tocauthor {
 		@include font-authentic(90);
-				@include plumber(
-					$baseline: $baseline-authentic,
-					$font-size: pt(11pt),
-				);
+			@include plumber(
+				$baseline: $baseline-authentic,
+				$font-size: pt(6pt),//pt(11pt),
+			);
+	}
+	.tocsection-1 ul > li {
+		padding-left: 0;
 	}
 }
 
@@ -184,6 +197,7 @@ span.footnote {
   @include font-authentic($weight:90);
 	font-size: 7pt;
 	line-height: 8.8pt;
+	padding-left: 2cm;
 }
 
 
