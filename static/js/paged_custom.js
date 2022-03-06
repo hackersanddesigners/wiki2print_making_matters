@@ -39,59 +39,52 @@ ready.then(async function () {
 
 	paged.preview(flowText.content).then((flow) => {
 		let t1 = performance.now();
-		console.log( 
-			"Rendering Pagedjs " +
-			flow.total +
-			" pages took " +
-			(t1 - t0) +
-			" milliseconds."
-		);
+		console.log( "Rendering Pagedjs " + flow.total + " pages took " + (t1 - t0) + " milliseconds.");
 		t0 = performance.now();
 		const no_p5 = new URLSearchParams(window.location.search).has("no_p5"); // save some time by disabling the p5js backgrounds
 		if (!no_p5) {
 			let numChapters = document.querySelectorAll("h1 .mw-headline").length;
 			let currChapter = 0;
-			// for (const i in flow.pages) { 
-			// 	let page = flow.pages[i]; console.log(page)
-			// 	let hasH1 = page.area.querySelector("h1");
-			// 	if (hasH1) currChapter++;
-			// 	this.renderSketch(
-			// 		page,
-			// 		parseInt(i) + 1,
-			// 		flow.pages.length,
-			// 		numChapters,
-			// 		currChapter
-			// 	);
-			// }
+			for (const i in flow.pages) { 
+				let page = flow.pages[i]; 
+				addPageNumbersToToc(page)
+			}
 			let i = 0;
 			let render = () => {
 				let page = flow.pages[i]; 
-				console.log(page)
 				let hasH1 = page.area.querySelector("h1");
 				if (hasH1) currChapter++;
-				this.renderSketch(
-					page,
-					parseInt(i) + 1,
-					flow.pages.length,
-					numChapters,
-					currChapter
-				);
-				if(i<flow.pages.length) {
+				this.renderSketch( page, parseInt(i) + 1, flow.pages.length, numChapters, currChapter );
+				if(i<flow.pages.length-1) {
 					setTimeout(render, 10);
 					i++;
 				}
 			}
-			render(flow.pages);
+			// render(flow.pages);
 		}
 		t1 = performance.now();
-		console.log(
-			"Rendering backgrounds for " +
-			flow.total +
-			" pages took " +
-			(t1 - t0) +
-			" milliseconds."
-		);
+		console.log( "Rendering backgrounds for " + flow.total + " pages took " + (t1 - t0) + " milliseconds.");
 	});
+
+	let addPageNumbersToToc = (page) => {
+		const pages = document.querySelector('.pagedjs_pages');
+		let toc = pages.querySelector('#toc');
+		let H2 = page.area.querySelector("h2");
+		if (H2) {
+			let title = H2.textContent.trim();
+			let titles = toc.querySelectorAll('.toctext');
+			titles.forEach((tocText, i) => {
+				if(tocText.textContent.includes(title)){
+					console.log(tocText, "=>", page.position)
+					// tocText.append(page.position)
+					const span = document.createElement("span");
+					span.className = "tocPageNumber";
+					span.innerText = page.position + 1;
+					tocText.parentNode.appendChild(span);
+				}
+			});
+		}
+	}
 
 	let resizer = () => {
 		let pages = document.querySelector(".pagedjs_pages");

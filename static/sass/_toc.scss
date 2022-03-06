@@ -19,4 +19,16 @@
 	.tocnumber {
 		display: none;
 	}
+
+	.toclevel-2 a {
+		display: inline-block;
+	}
+
+	.toclevel-2 a  {
+		display: initial;
+	}
+	.toclevel-2 a span.tocPageNumber {
+		float: right;
+		text-align: right;
+	}
 }

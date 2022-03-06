@@ -39,13 +39,28 @@ def filter(html):
 	soup = inlineCiteRefs(soup)
 	soup = add_author_names_toc(soup)
 	soup = insertEmptyPageAfterTitle(soup)
-	return soup.prettify()
+	html = soup.prettify()
+	html = replaceSymbol(html)
+	html = removeCacheReport(html)
+	return html
 
 def cleanup(soup):
   es = soup.find_all(class_="mw-editsection")
   for s in es:
     s.decompose()
   return soup
+
+def replaceSymbol(html):
+	import re
+	html = re.sub(r"↵", "ツ", html)
+	return html
+
+# somehow Beautifulsoup unhides the caching comment
+# let's remove it :)
+def removeCacheReport(html):
+	import re
+	html = re.sub(r"NewPP limit report.+JSON.", "", html, flags=re.DOTALL)
+	return html
 
 def insertEmptyPageAfterTitle(soup):
 	h1s = soup.find_all("h1")
