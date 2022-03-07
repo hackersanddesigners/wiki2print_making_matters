@@ -71,13 +71,16 @@ ready.then(async function () {
 		let H2 = page.area.querySelector("h2");
 		if (H2) {
 			let title = H2.textContent.trim();
+			let auth = H2.nextSibling.textContent.trim();
 			let titles = document.querySelectorAll('.toclevel-2 .toctext');
 			titles.forEach((tocText, i) => {
-				if(tocText.textContent.includes(title)){
-					const span = document.createElement("span");
-					span.className = "tocPageNumber";
-					span.innerText = page.position + 1;
-					tocText.parentNode.appendChild(span);
+				if(tocText.textContent.includes(title)){ console.log(tocText)
+					if(!tocText.nextElementSibling || tocText.nextElementSibling.textContent.includes(auth)) {
+						const span = document.createElement("span");
+						span.className = "tocPageNumber";
+						span.innerText = page.position + 1;
+						tocText.parentNode.appendChild(span);
+					}
 				}
 			});
 		}
