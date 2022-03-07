@@ -68,15 +68,12 @@ ready.then(async function () {
 
 	let addPageNumbersToToc = (page) => {
 		const pages = document.querySelector('.pagedjs_pages');
-		let toc = pages.querySelector('#toc');
 		let H2 = page.area.querySelector("h2");
 		if (H2) {
 			let title = H2.textContent.trim();
-			let titles = toc.querySelectorAll('.toctext');
+			let titles = document.querySelectorAll('.toclevel-2 .toctext');
 			titles.forEach((tocText, i) => {
 				if(tocText.textContent.includes(title)){
-					console.log(tocText, "=>", page.position)
-					// tocText.append(page.position)
 					const span = document.createElement("span");
 					span.className = "tocPageNumber";
 					span.innerText = page.position + 1;
