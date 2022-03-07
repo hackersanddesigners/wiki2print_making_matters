@@ -73,6 +73,7 @@ h1 {
 h2 {
   counter-increment: countChapter;
 	string-set: articleTitle content(text);
+	counter-set: footnote-marker 0;
 }
 
 span.author {
