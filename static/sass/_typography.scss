@@ -72,6 +72,15 @@ h1 {
 			);
 			text-align: center;
 		}
+		h3 {
+			@include font-authentic(150);
+			@include plumber(
+				$baseline: $baseline-authentic,
+				$font-size: pt(10pt),
+				$line-height: 2
+			);
+			text-align: center;
+		}
 		.author {
 			@include font-authentic(90);
 			@include plumber(
