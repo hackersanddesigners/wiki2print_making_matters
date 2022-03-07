@@ -60,7 +60,7 @@ ready.then(async function () {
 					i++;
 				}
 			}
-			// render(flow.pages);
+			render(flow.pages);
 		}
 		t1 = performance.now();
 		console.log( "Rendering backgrounds for " + flow.total + " pages took " + (t1 - t0) + " milliseconds.");
