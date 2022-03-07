@@ -68,10 +68,30 @@ content: " (" attr(href) ")";
 } */
 
 img {
-  max-width: 100%;
+  max-width: 85%;
+	width: auto; // height is set with javascript
+	border-radius: 1rem;	
 }
 
+a.image {
+	display: block;
+	text-align: center;
+}
 
+.pagedjs_pages .pagedjs_area .chapter .image-container {
+	margin: 0;
+	padding: 0;
+	text-indent: 0;
+	text-align: center;
+	a {
+		display: block;
+	}
+	img {
+		display: block;
+		margin: 12pt auto;
+	}
+
+}
 
 /* 
 Page margin colors. The color names are specified in sketch.js

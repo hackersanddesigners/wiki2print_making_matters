@@ -47,7 +47,8 @@ ready.then(async function () {
 			let currChapter = 0;
 			for (const i in flow.pages) { 
 				let page = flow.pages[i]; 
-				addPageNumbersToToc(page)
+				addPageNumbersToToc(page);
+				alignImagesToBaseline(12);
 			}
 			let i = 0;
 			let render = () => {
@@ -85,6 +86,16 @@ ready.then(async function () {
 			});
 		}
 	}
+
+	let alignImagesToBaseline = (gridSize) => {
+		const imgs = document.querySelectorAll('img');
+		let rythm = gridSize / 72 * 96; // convert pt to px
+		imgs.forEach((img, i) => {
+			img.parentNode.parentNode.classList.add("image-container") // add class to p remove margins
+			let newH = Math.floor( img.clientHeight / rythm );
+			img.style.height = newH * rythm + "px";
+		});
+	};
 
 	let resizer = () => {
 		let pages = document.querySelector(".pagedjs_pages");
