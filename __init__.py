@@ -52,7 +52,7 @@ def cleanup(soup):
 
 def replaceSymbol(html):
 	import re
-	html = re.sub(r"↵", "⇝", html)
+	html = re.sub(r"↵", "<span class='font-symbola'>⇝</span>", html)
 	return html
 
 # somehow Beautifulsoup unhides the caching comment

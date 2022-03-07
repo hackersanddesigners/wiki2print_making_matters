@@ -1,0 +1,15 @@
+/* Fonts */
+
+@font-face {
+  font-family: "Symbola";
+  src: url("../fonts/symbola.ttf") format("truetype");
+}
+
+
+@mixin font-symbola() {
+	font-family: "Symbola", sans-serif;
+}
+
+.font-symbola {
+	@include font-symbola();
+}

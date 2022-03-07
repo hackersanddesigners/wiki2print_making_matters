@@ -10,6 +10,7 @@ make it easier to adapt.
 @import "font-ortica";
 @import "font-combine";
 @import "font-authentic";
+@import "font-symbola";
 
 body {
 	@include font-ortica();
@@ -41,7 +42,7 @@ h1 {
 		);
 		orphans: 5;
 		widows: 5;
-		text-indent: 1cm;
+		text-indent: 0.5cm;
 	}
 	b {
 		@include plumber(
@@ -89,6 +90,8 @@ h1 {
 				$baseline: $baseline-combine,
 				$font-size: pt(8.5pt),
 			);
+			margin-left: 1cm;
+			margin-right: 1cm;
 			> p {
 				margin: 0;
 			}
