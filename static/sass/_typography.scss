@@ -115,6 +115,12 @@ h1 {
 				$leading-bottom: 0,
 			);
 		}
+		ul {
+			list-style: none;
+		}
+		li::before {
+  		content: '—';
+		}
 		sup,
 		.footnote {
 			@include font-authentic($weight:150);
