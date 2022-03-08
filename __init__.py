@@ -106,9 +106,12 @@ def add_author_names_toc(soup):
 				# print("text",author_text)
 				toc_2_item = soup.find(attrs={'href': f'#{ sub_header_headline_id }'})
 				if (toc_2_item):
-					toc_author = soup.new_tag('span', **{'class':'tocauthor'})
-					toc_author.string = author_text
-					toc_2_item.append(toc_author)
+					try:
+						toc_author = soup.new_tag('span', **{'class':'tocauthor'})
+						toc_author.string = author_text
+						toc_2_item.append(toc_author)
+					except:
+						print("Error copying author name(s)")
 					# print("item",	toc_2_item)
 	return soup
 
