@@ -17,7 +17,7 @@ body {
 	@include plumber(
       $baseline: $baseline-ortica,
 			$font-size: pt(9.5pt),
-			$line-height: 1
+			$line-height: 2
 	);
 }
 
