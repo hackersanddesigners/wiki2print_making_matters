@@ -5,6 +5,7 @@ from api import *
 from bs4 import BeautifulSoup
 import re	
 # this madness is apparently necessary to import web-interface.py
+# TODO: we only need web-interface for the constants, maybe remove?
 import os,sys,inspect
 current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parent_dir = os.path.dirname(current_dir)
@@ -35,33 +36,31 @@ def pagedjs(pagename):
 def filter(html):
 	print("filtering...")	
 	soup = BeautifulSoup(html, 'html.parser')
-	soup = cleanup(soup)
-	soup = inlineCiteRefs(soup)
 	soup = add_author_names_toc(soup)
 	soup = insertEmptyPageAfterTitle(soup)
 	html = soup.prettify()
 	html = replaceSymbol(html)
-	html = removeCacheReport(html)
-	html = re.sub(r"(src=\"(?:.*?))(\\\.)", "\g<1>.", html)
+	html = removeSrcSets(html)
 	return html
 
-def cleanup(soup):
-  es = soup.find_all(class_="mw-editsection")
-  for s in es:
-    s.decompose()
-  return soup
-
 def replaceSymbol(html):
-	import re
 	html = re.sub(r"↵", "<span class='font-symbola'>⇝</span>", html)
+	return html
+
+# somethings wrong with the srcsets from the wiki. We originals anyway.
+def removeSrcSets(html):
+	"""
+		html = string (HTML)
+	"""
+	html = re.sub(r"srcset=", "xsrcset=", html)
 	return html
 
 # somehow Beautifulsoup unhides the caching comment
 # let's remove it :)
-def removeCacheReport(html):
-	import re
-	html = re.sub(r"NewPP limit report.+JSON.", "", html, flags=re.DOTALL)
-	return html
+# def removeCacheReport(html):
+# 	import re
+# 	html = re.sub(r"NewPP limit report.+JSON.", "", html, flags=re.DOTALL)
+# 	return html
 
 def insertEmptyPageAfterTitle(soup):
 	h1s = soup.find_all("h1")
@@ -70,25 +69,6 @@ def insertEmptyPageAfterTitle(soup):
 		new_tag = soup.new_tag("span", **cls)
 		h1.insert_after(new_tag)
 	return soup
-
-# inline citation references in the html for pagedjs
-# Turns: <sup class="reference" id="cite_ref-1"><a href="#cite_note-1">[1]</a></sup>
-# into: <span class="footnote">The cite text</span>
-def inlineCiteRefs(soup):
-	refs = soup.find_all("sup", class_="reference")
-	for ref in refs:
-		href = ref.a['href']
-		res = re.findall('[0-9]+', href)
-		if(res):
-			cite = soup.find_all(id="cite_note-"+res[0])
-			text = cite[0].find(class_="reference-text")
-			text['class'] = 'footnote'
-			ref.replace_with(text)
-	#remove the  reference from the bottom of the document
-	for item in soup.find_all(class_="references"):
-		item.decompose()
-	return soup
-
 
 def add_author_names_toc(soup):
 	sub_headers = soup.findAll('h2')
