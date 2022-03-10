@@ -43,7 +43,7 @@ who participated in this project.
 
 ## License
 
-TBA
+[CC4r](https://constantvzw.org/wefts/cc4r.en.html)
 
 ## Acknowledgments
 
