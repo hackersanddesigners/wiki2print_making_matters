@@ -74,6 +74,7 @@ h2 {
   counter-increment: countChapter;
 	string-set: articleTitle content(text);
 	counter-set: footnote-marker 0 footnote 0;
+	string-set: author "";
 }
 
 span.author {
