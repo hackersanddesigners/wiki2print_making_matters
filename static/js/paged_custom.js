@@ -23,14 +23,8 @@ class MM_Handler extends Paged.Handler {
 }
 
 ready.then(async function () {
-	// TODO: move to separate function
-	// add url params as class to body for debugging. 
-	// example: add `?debug` to uri, body gets class 'debug', write class .debug
-	let params = new URLSearchParams(window.location.search);
-	for(var par of params.entries()) {
-		document.body.classList.add(par[0]); //key
- 	}
-	loadingMessage()
+	paramsToClass();
+	loadingMessage();
 		
 	let flowText = document.querySelector("#source");
 	
@@ -132,4 +126,13 @@ let removeLoadingMessage = () => {
 	let elem = document.querySelector(".loading-message");
 	elem.textContent = "Done."
 	setTimeout(()=>{elem.parentNode.removeChild(elem)}, 1000);
+}
+
+let paramsToClass = () =>{
+	// add url params as class to body for debugging. 
+	// example: add `?debug` to uri, body gets class 'debug', write class .debug
+	let params = new URLSearchParams(window.location.search);
+	for(var par of params.entries()) {
+		document.body.classList.add(par[0]); //key
+ 	}
 }

@@ -33,15 +33,15 @@ h1 {
 }
 
 .pagedjs_pages {
-  .chapter > p, br {
+  .chapter p, br {
 		@include plumber(
 			$baseline: $baseline-ortica,
 			$font-size: pt(9.5pt),
 			$leading-top: 0,
 			$leading-bottom: 0,
 		);
-		orphans: 5;
-		widows: 5;
+		orphans: 2;
+		widows: 2;
 		text-indent: 0.5cm;
 	}
 	b {
