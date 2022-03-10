@@ -1,9 +1,9 @@
 function renderSketch(page, num, total, numChapters, currChapter){
 	let isRight = page.element.classList.contains("pagedjs_right_page");
-	
+	console.log(page)
 
 	const s = (sketch) => {
-		let canvas;
+		let canvas, el;
 		let colors = {
 			'green': sketch.color(90,106,92), //#5A6A5C
 			'brown': sketch.color(185,108,54), //#B96C36
@@ -11,7 +11,8 @@ function renderSketch(page, num, total, numChapters, currChapter){
 			'default': sketch.color(98,128,148), // #628094
 		};
 		sketch.setup = () => {
-			let el = page.element.querySelector(".pagedjs_pagebox");
+			//let el = page.element.querySelector(".pagedjs_pagebox");
+			el = page.element;//.querySelector(".pagedjs_pagebox");
 			canvas = sketch.createCanvas(el.offsetWidth, el.offsetHeight, sketch.SVG);
 			canvas.parent(el);
 			canvas.position(0, 0);
@@ -32,10 +33,15 @@ function renderSketch(page, num, total, numChapters, currChapter){
 			// sketch.fill(color);
 			// sketch.noStroke();
 			let step = sketch.height / numChapters;
-			let left = 0;
+			// let left = 0;
+			let left = el.querySelector(".pagedjs_bleed-left").clientWidth;
 			if (isRight) {
-				left = sketch.width;
+				// left = sketch.width;
+				console.log(el.querySelector(".pagedjs_bleed-right").clientWidth)
+				left = sketch.width - parseInt(el.querySelector(".pagedjs_bleed-right").clientWidth);
 			} 
+
+			console.log( ( isRight ? "right:": "left:" ), left );
 			// sketch.rect( left, 0, 10, step * ( currChapter - 1 ) );
 			// sketch.rect( left, step * ( currChapter ), 10 , sketch.height );
 			sketch.strokeWeight(20);
@@ -67,22 +73,22 @@ function renderSketch(page, num, total, numChapters, currChapter){
 
 		sketch.drawPageTop = (color) => {
 			sketch.stroke(color);	
+			let top = el.querySelector(".pagedjs_bleed-top").clientHeight;
 			if( isRight ) {
-				sketch.borderLine(".pagedjs_margin-top-left", 0);
-				sketch.borderLine(".pagedjs_margin-top-right", 0);
+				sketch.borderLine(".pagedjs_margin-top-left", top);
+				/* Feels like I'm going to lose my mind
+				You just keep on pushin' my love
+				Over the ... */
+				sketch.borderLine(".pagedjs_margin-top-right", top);
 			} else {
-				// modified the css a bit so the .pagedjs_margin-content is not 100%
-				sketch.borderLine(".pagedjs_margin-top-center .pagedjs_margin-content", 0);
+				sketch.borderLine(".pagedjs_margin-top-center .pagedjs_margin-content", top); // modified the css a bit so the .pagedjs_margin-content is not 100%
 			}
 			sketch.borderLine(".pagedjs_margin-bottom-center .pagedjs_margin-content", sketch.height);
 		}
 
 		sketch.borderLine = (selector, y) => {
-			/* Feels like I'm going to lose my mind */
 			const tc = page.element.querySelector(selector);
 			if(tc.offsetWidth > 0) {
-				/* You just keep on pushin' my love
-				Over the borderline (borderline) */
 				sketch.line(tc.offsetLeft, y, tc.offsetLeft+tc.offsetWidth, y );
 			}	
 				

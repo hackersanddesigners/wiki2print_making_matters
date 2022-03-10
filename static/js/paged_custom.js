@@ -71,7 +71,7 @@ ready.then(async function () {
 			let auth = H2.nextSibling.textContent.trim();
 			let titles = document.querySelectorAll('.toclevel-2 .toctext');
 			titles.forEach((tocText, i) => {
-				if(tocText.textContent.includes(title)){ console.log(tocText)
+				if(tocText.textContent.includes(title)){
 					if(!tocText.nextElementSibling || tocText.nextElementSibling.textContent.includes(auth)) {
 						const span = document.createElement("span");
 						span.className = "tocPageNumber";
