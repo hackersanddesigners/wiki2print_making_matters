@@ -117,9 +117,13 @@ h1 {
 		}
 		ul {
 			list-style: none;
+			padding-left: 0.5cm;
 		}
-		li::before {
+		ul li::marker {
   		content: '—';
+		}
+		ol {
+			padding-left: 0.5cm;
 		}
 		sup,
 		.footnote {
