@@ -15,6 +15,7 @@ https://jamonserrano.github.io/plumber-sass/
 @import "toc";
 @import "debug";
 @import "pagebreaks";
+@import "loading";
 
 /* General styling */
 html {
@@ -168,3 +169,4 @@ Available color: red, green, brown
 	font-size: 14pt;
 	line-height: 15pt;
 }
+

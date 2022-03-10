@@ -30,6 +30,7 @@ ready.then(async function () {
 	for(var par of params.entries()) {
 		document.body.classList.add(par[0]); //key
  	}
+	loadingMessage()
 		
 	let flowText = document.querySelector("#source");
 	
@@ -65,6 +66,7 @@ ready.then(async function () {
 		}
 		t1 = performance.now();
 		console.log( "Rendering backgrounds for " + flow.total + " pages took " + (t1 - t0) + " milliseconds.");
+		removeLoadingMessage();
 	});
 
 	let addPageNumbersToToc = (page) => {
@@ -119,3 +121,15 @@ ready.then(async function () {
 	});
 });
 
+let loadingMessage = () => {
+	let html = `<span class="loading-message"><span class="lds-heart"><div></div></span>Rendering...</span>`;
+	let n = document.createRange().createContextualFragment(html);
+	n.firstElementChild.style.position = "fixed"
+	document.body.append(n)
+}
+
+let removeLoadingMessage = () => {
+	let elem = document.querySelector(".loading-message");
+	elem.textContent = "Done."
+	setTimeout(()=>{elem.parentNode.removeChild(elem)}, 1000);
+}
