@@ -42,6 +42,7 @@ def filter(html):
 	html = soup.prettify()
 	html = replaceSymbol(html)
 	html = removeCacheReport(html)
+	html = re.sub(r"(src=\"(?:.*?))(\\\.)", "\g<1>.", html)
 	return html
 
 def cleanup(soup):
