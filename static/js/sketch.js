@@ -11,16 +11,13 @@ function renderSketch(page, num, total, numChapters, currChapter){
 			'default': sketch.color(98,128,148), // #628094
 		};
 		sketch.setup = () => {
-			//let el = page.element.querySelector(".pagedjs_pagebox");
-			el = page.element;//.querySelector(".pagedjs_pagebox");
+			el = page.element;
 			canvas = sketch.createCanvas(el.offsetWidth, el.offsetHeight, sketch.SVG);
 			canvas.parent(el);
 			canvas.position(0, 0);
-			canvas.style("z-index", "-1");
-			// sketch.background(220);
+			canvas.style("z-index", 0);
 			if(!page.element.querySelector("h1")){
 				// let chap = page.element.getElementsByClassName('.chapter');
-				// console.log(chap)
 				// let c = getComputedStyle(page.element).getPropertyValue('--base-color').trim() || getComputedStyle(chap).getPropertyValue('--base-color').trim() || 'default';
 				let c = getComputedStyle(page.element).getPropertyValue('--base-color').trim() || 'default';
 				let color = colors[c] || colors["default"];
@@ -30,20 +27,12 @@ function renderSketch(page, num, total, numChapters, currChapter){
 		};
 
 		sketch.drawPageBorder = (color) => {
-			// sketch.fill(color);
-			// sketch.noStroke();
+			sketch.background(255);
 			let step = sketch.height / numChapters;
-			// let left = 0;
 			let left = el.querySelector(".pagedjs_bleed-left").clientWidth;
 			if (isRight) {
-				// left = sketch.width;
-				console.log(el.querySelector(".pagedjs_bleed-right").clientWidth)
 				left = sketch.width - parseInt(el.querySelector(".pagedjs_bleed-right").clientWidth);
 			} 
-
-			console.log( ( isRight ? "right:": "left:" ), left );
-			// sketch.rect( left, 0, 10, step * ( currChapter - 1 ) );
-			// sketch.rect( left, step * ( currChapter ), 10 , sketch.height );
 			sketch.strokeWeight(20);
 			sketch.stroke(color);	
 			let t1 = 0;

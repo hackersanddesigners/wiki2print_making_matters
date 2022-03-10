@@ -154,7 +154,7 @@ h1 {
 			);
 			text-align: center;
 		}		
-		
+
 	}
 
 	/* we have to disable the baseline grid margin/padding 
@@ -178,11 +178,9 @@ h1 {
 #toc {
 	ul {
 		list-style: none;
-
 	}
 
 	& > ul > li {
-		margin-top: 12pt;
 		& > a .toctext { /* first level */
 			@include font-ortica();
 			@include plumber(
@@ -204,9 +202,6 @@ h1 {
 				);
 			}
 		} 
-	}
-	.tocnumber {
-		display: none;
 	}
 	.tocauthor {
 		@include font-authentic(90);

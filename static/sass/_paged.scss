@@ -8,6 +8,7 @@
   margin-left: 15mm;
   /* bleed: 6mm;
    marks: crop cross; */
+	background-color: white;
   @footnote {
     float: bottom;
   }
@@ -52,6 +53,10 @@
 
 .pagedjs_page {
 	background-color: transparent;
+}
+
+.pagedjs_sheet {
+	z-index: 1;
 }
 
 .pagedjs_margin-bottom-left-corner,

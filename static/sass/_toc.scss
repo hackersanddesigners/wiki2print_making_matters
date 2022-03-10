@@ -1,4 +1,5 @@
 #toc {
+	
 	ul {
 		list-style: none;
 		padding: 0;
@@ -15,29 +16,34 @@
 		height: 12pt;
 	}
 
-	.toctitle {
-		display: none;
-	}
-	& > ul > li {
-		& > a span { /* first level */
-		}
-		& > ul {
-			li {
-				padding-left: 1cm;
-			}
-		} 
-	}
 	.tocnumber {
 		display: none;
 	}
-
-	.toclevel-2 a {
-		display: inline-block;
+	.toctitle {
+		display: none;
+	}
+	& > ul {
+		margin-top: 0;
+		& > li {
+			margin-top: 12pt;
+			&:first-of-type {
+				margin-top: 0 !important
+			}
+			& > ul {
+				li {
+					padding-left: 1cm;
+				}
+			} 
+		}
 	}
 
-	.toclevel-2 a  {
-		display: initial;
-	}
+	// .toclevel-2 a {
+	// 	display: inline-block;
+	// }
+
+	// .toclevel-2 a  {
+	// 	display: initial;
+	// }
 	.toclevel-2 a span.tocPageNumber {
 		float: right;
 		text-align: right;
