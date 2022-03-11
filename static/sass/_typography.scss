@@ -159,7 +159,7 @@ h1 {
 
 	/* we have to disable the baseline grid margin/padding 
 	that Plumber sets above for the first element on a page */
-	.chapter > *:first-child {
+	.chapter > p:first-child {
 		margin-top: 0;
 		padding-top: 0;
 	}
@@ -174,6 +174,16 @@ h1 {
 //   )
 // }
 }
+
+.font-symbola {
+	@include plumber(
+		$baseline: $baseline-symbola,
+		$font-size: pt(12pt),
+		$leading-top: 0,
+		$leading-bottom: 0,
+	);
+}
+
 
 #toc {
 	ul {
