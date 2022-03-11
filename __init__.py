@@ -1,6 +1,6 @@
 import flask
 from flask_plugin import Plugin
-from flask import redirect, url_for
+from flask import redirect, url_for, request
 from api import *
 from bs4 import BeautifulSoup
 import re	
@@ -12,6 +12,7 @@ parent_dir = os.path.dirname(current_dir)
 sys.path.insert(0, parent_dir) 
 import importlib  
 app = importlib.import_module("web-interface")
+sketch = 0
 
 plugin = Plugin(
 		static_folder='static',
@@ -27,10 +28,12 @@ def pagedjs(pagename):
 		pagename,
 		app.manager
 	)
+	sketch = request.args.get("sketch", default="0", type=str)
 	return filter(flask.render_template(
 		'Making_Matters_Lexicon.html', 
 		title = pagename,
 		html  = publication['html'],
+		sketch = sketch,
 	))
 	
 def filter(html):
