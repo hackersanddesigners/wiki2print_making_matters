@@ -25,7 +25,7 @@ function renderSketch(page, num, total, numChapters, currChapter){
 				let c = getComputedStyle(page.element).getPropertyValue('--base-color').trim() || 'default';
 				let color = colors[c] || colors["default"];
 				color.setAlpha(100);
-				console.log("color1", color)
+				// console.log("color1", color)
 				sketch.drawPageBorder(color);
 				// sketch.drawPageTop(color);
 			}
@@ -42,7 +42,7 @@ function renderSketch(page, num, total, numChapters, currChapter){
 			for( let i = 0; i < numChapters; i++ ){
 				let p = isRight ? (i + 10) / 5 : i / 5;
 				let noise_val = sketch.constrain(sketch.map(sketch.noise(p,num/10), 0.3, 0.7, 0, 255),0,255);
-				console.log("color2", color)
+				// console.log("color2", color)
 				color.setAlpha(noise_val)
 				sketch.fill(color);
 				if( i !== currChapter ){
