@@ -11,7 +11,7 @@ class MM_Handler extends Paged.Handler {
 		this.caller = caller;
 	}
 
-	beforeParsed(content) {
+	insertDocumentTitle(content	) {
 		let c = content.querySelector(".mw-parser-output");
 		let n = document.createElement("span")
 		n.setAttribute("class", 'book-title');
@@ -20,11 +20,18 @@ class MM_Handler extends Paged.Handler {
 		// remove toc heading
 		content.querySelector("#mw-toc-heading").remove();
 	}
+
+	beforeParsed(content) {
+		insertUIStyle();
+		this.insertDocumentTitle(content);
+	}
+
 }
 
 ready.then(async function () {
-	paramsToClass();
+	// paramsToClass();
 	loadingMessage();
+	ui();
 		
 	let flowText = document.querySelector("#source");
 	
@@ -33,6 +40,7 @@ ready.then(async function () {
 	let paged = new Paged.Previewer();
 
 	paged.preview(flowText.content).then((flow) => {
+		
 		let t1 = performance.now();
 		console.log( "Rendering Pagedjs " + flow.total + " pages took " + (t1 - t0) + " milliseconds.");
 		t0 = performance.now();
@@ -50,7 +58,9 @@ ready.then(async function () {
 				let page = flow.pages[i]; 
 				let hasH1 = page.area.querySelector("h1");
 				if (hasH1) currChapter++;
-				this.renderSketch( page, parseInt(i) + 1, flow.pages.length, numChapters, currChapter );
+				if(typeof renderSketch === 'function'){
+					renderSketch( page, parseInt(i) + 1, flow.pages.length, numChapters, currChapter );
+				}
 				if(i<flow.pages.length-1) {
 					setTimeout(render, 10);
 					i++;
@@ -114,6 +124,44 @@ ready.then(async function () {
 		resizer();
 	});
 });
+
+let insertUIStyle = () => {
+	const style = document.createElement('style');
+	style.innerHTML = `
+		@media only print {
+      .print-ui {
+        display: none !important	;
+      }
+		}
+		.print-ui {
+			position: fixed;
+			display: block;
+		}
+    `;
+	// document.querySelectorAll('.print-ui').style.display = "block"; // only block for now?
+	document.head.appendChild(style);
+}
+
+let ui = () => {
+	let queryParams = new URLSearchParams(window.location.search);
+	const select = document.getElementById("sketch");
+	select.addEventListener('change', (event) => {
+		queryParams.set("sketch", select.value);
+		history.replaceState(null, null, "?"+queryParams.toString());
+		window.location.reload(false)
+	});
+	const grid_check = document.getElementById("grid");
+	grid_check.addEventListener('change', (event) => {
+		value = grid_check.checked == 1 ? 1 : 0;
+		queryParams.set("grid", value);
+		history.replaceState(null, null, "?"+queryParams.toString());
+		if( value == 0 ) {
+			document.body.classList.remove('grid');
+		} else {
+			document.body.classList.add('grid');
+		}
+	});
+}
 
 let loadingMessage = () => {
 	let html = `<span class="loading-message"><span class="lds-heart"><div></div></span>Rendering...</span>`;
