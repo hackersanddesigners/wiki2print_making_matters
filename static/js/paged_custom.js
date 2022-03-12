@@ -11,19 +11,19 @@ class MM_Handler extends Paged.Handler {
 		this.caller = caller;
 	}
 
-	insertDocumentTitle(content	) {
+	insertDocumentTitle(content) {
 		let c = content.querySelector(".mw-parser-output");
 		let n = document.createElement("span")
 		n.setAttribute("class", 'book-title');
 		n.innerHTML = "Making Matters<br/>A Vocabulary for Collective Arts";
 		c.prepend(n);
-		// remove toc heading
-		content.querySelector("#mw-toc-heading").remove();
 	}
 
 	beforeParsed(content) {
 		insertUIStyle();
 		this.insertDocumentTitle(content);
+		// remove toc heading
+		content.querySelector("#mw-toc-heading").remove();
 	}
 
 }
