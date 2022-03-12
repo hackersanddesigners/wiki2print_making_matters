@@ -1,17 +1,18 @@
 import flask
+from flask import request
 from flask_plugin import Plugin
-from flask import redirect, url_for, request
 from api import *
 from bs4 import BeautifulSoup
-import re	
-# this madness is apparently necessary to import web-interface.py
-# TODO: we only need web-interface for the constants, maybe remove?
-import os,sys,inspect
-current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-parent_dir = os.path.dirname(current_dir)
-sys.path.insert(0, parent_dir) 
-import importlib  
-app = importlib.import_module("web-interface")
+import re
+# import config
+import sys
+sys.path.insert(0, '.../../..')
+from config import config as conf
+
+WIKI         = conf['wiki']['base_url']
+SUBJECT_NS   = conf['wiki']['subject_ns']
+STYLES_NS    = conf['wiki']['styles_ns']
+
 sketch = 0
 
 plugin = Plugin(
@@ -22,11 +23,10 @@ plugin = Plugin(
 @plugin.route('/pdf/<string:pagename>', methods=['GET', 'POST'])
 def pagedjs(pagename):	
 	publication = get_publication(
-		app.WIKI,
-		app.SUBJECT_NS,
-		app.STYLES_NS,
+		WIKI,
+		SUBJECT_NS,
+		STYLES_NS,
 		pagename,
-		app.manager
 	)
 	sketch = request.args.get("sketch", default=0, type=int)
 	grid = request.args.get("grid", default=0, type=int)
