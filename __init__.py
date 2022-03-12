@@ -28,12 +28,14 @@ def pagedjs(pagename):
 		pagename,
 		app.manager
 	)
-	sketch = request.args.get("sketch", default="0", type=str)
+	sketch = request.args.get("sketch", default=0, type=int)
+	grid = request.args.get("grid", default=0, type=int)
 	return filter(flask.render_template(
 		'Making_Matters_Lexicon.html', 
 		title = pagename,
 		html  = publication['html'],
 		sketch = sketch,
+		grid = grid,
 	))
 	
 def filter(html):
