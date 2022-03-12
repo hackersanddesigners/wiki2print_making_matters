@@ -63,6 +63,7 @@ function renderSketch(page, num, total, numChapters, currChapter){
 		sketch.drawPageTop = (color) => {
 			sketch.stroke(color);	
 			let top = el.querySelector(".pagedjs_bleed-top").clientHeight;
+			let bottom = sketch.height - el.querySelector(".pagedjs_bleed-top").clientHeight;
 			if( isRight ) {
 				sketch.borderLine(".pagedjs_margin-top-left", top);
 				/* Feels like I'm going to lose my mind
@@ -72,7 +73,7 @@ function renderSketch(page, num, total, numChapters, currChapter){
 			} else {
 				sketch.borderLine(".pagedjs_margin-top-center .pagedjs_margin-content", top); // modified the css a bit so the .pagedjs_margin-content is not 100%
 			}
-			sketch.borderLine(".pagedjs_margin-bottom-center .pagedjs_margin-content", sketch.height);
+			sketch.borderLine(".pagedjs_margin-bottom-center .pagedjs_margin-content", bottom);
 		}
 
 		sketch.borderLine = (selector, y) => {
