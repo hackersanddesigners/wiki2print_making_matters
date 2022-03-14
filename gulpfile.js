@@ -8,7 +8,7 @@ var exec = require('child_process').exec;
 
 // Sass Task
 function scssTask(){
-  return src('./static/sass/Making_Matters_Lexicon.scss', { sourcemaps: true })
+  return src('./static/sass/main.scss', { sourcemaps: true })
       .pipe(sass())
       .pipe(postcss([cssnano()]))
       .pipe(dest('./static/css', { sourcemaps: '.' }));
