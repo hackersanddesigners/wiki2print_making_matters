@@ -58,7 +58,10 @@ function renderSketch(page, num, total, numChapters, currChapter){
 				let g = (hash & 0x00FF00) >> 8;
 				let b = hash & 0x0000FF;
 				sketch.fill(r,g,b);
-				mark.style.backgroundColor = 'rgba(' + r  + "," +  g + "," +  b + ')';
+				mark.style.textDecoration = "underline";
+				mark.style.textDecorationColor = 'rgba(' + r  + "," +  g + "," +  b + ')';
+				mark.style.textDecorationStyle = "wavy";
+				mark.style.backgroundColor = "transparent";//'rgba(' + r  + "," +  g + "," +  b + ')';
 				let top = mark.offsetTop;
 				sketch.ellipse( left, dimensions.bleed.top + dimensions.margin.top + top + 8 , 10 ); // magic 8 = baseline = 12pt = 16px / 2
 			}
