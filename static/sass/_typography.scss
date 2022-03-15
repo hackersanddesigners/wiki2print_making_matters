@@ -34,7 +34,7 @@ h1 {
 }
 
 .pagedjs_pages {
-  .chapter p, br {
+  .chapter p {
 		@include plumber(
 			$baseline: $baseline-ortica,
 			$font-size: pt(9.5pt),
@@ -63,7 +63,8 @@ h1 {
       $font-size: pt(9.5pt),
     );
   }
-	.pagedjs_page_content {
+	
+	.chapter {
 		h2 {
 			@include font-combine();
 			@include plumber(
@@ -110,6 +111,7 @@ h1 {
 			margin-right: 1cm;
 			> p {
 				margin: 0;
+				padding: 0;
 			}
 		}
 		ul,
