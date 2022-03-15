@@ -56,6 +56,10 @@ h1 {
 	page: empty-page !important;
 }
 
+.title-page {
+	page: chapter-title;
+}
+
 /* Prevent superscript from messing up the line-height */
 sup { vertical-align: top; position: relative; top: -0.5em; }
 
@@ -117,6 +121,13 @@ Available color: red, green, brown
 	@bottom-center {
 		content: "";
 	}
+	@top-left {
+    content: "";
+  }
+	@top-right {
+    content: "";
+  }
+	
 }
 
 @page empty-title {
@@ -171,5 +182,36 @@ Available color: red, green, brown
 	@include font-ortica();
 	font-size: 14pt;
 	line-height: 15pt;
+}
+
+
+
+.full-page-image {
+	width: var(--pagedjs-width);
+	height: var(--pagedjs-height);
+	overflow: hidden;
+	left: calc(calc(var(--pagedjs-bleed-left) + var(--pagedjs-margin-left))*-1);
+	top: calc(calc(var(--pagedjs-bleed-top) + var(--pagedjs-margin-top))*-1);
+	position: absolute;
+	background-color: black;
+}
+.full-page-image div {
+	width: calc(var(--pagedjs-width) * 2);
+	height: var(--pagedjs-height);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.pagedjs_right_page .full-page-image div {
+	margin-left: calc(-1 * var(--pagedjs-width));
+}
+.full-page-image img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.full-page-image-left {
+	page-break-after: always;
 }
 

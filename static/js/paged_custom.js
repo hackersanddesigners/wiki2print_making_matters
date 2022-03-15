@@ -4,6 +4,7 @@ this.ready = new Promise(function ($) {
 
 
 class MM_Handler extends Paged.Handler {
+	t0 = 0; t1 = 0;
 	constructor(chunker, polisher, caller) {
 		super(chunker, polisher, caller);
 		this.chunker = chunker;
@@ -24,56 +25,69 @@ class MM_Handler extends Paged.Handler {
 		this.insertDocumentTitle(content);
 		// remove toc heading
 		content.querySelector("#mw-toc-heading").remove();
+
+		// let h1s = content.querySelectorAll("h1"); console.log(h1s)
+		// for(let i = 0; i < h1s.length; i++ ) {
+		// 	let h1 = h1s[i]
+		// 	let text = h1.innerText.trim();
+		// 	let url =  "/plugins/Making_Matters_Lexicon/static/images/" + text + ".svg";
+		// 	fetch(url, { method: 'HEAD' })
+		// 	.then(res => {
+		// 		if (res.ok) {
+		// 			const div = document.createElement("div");
+		// 			div.className = 'title-page';
+		// 			div.id="title-page";
+		// 			const img = document.createElement("img");
+		// 			img.alt = text;
+		// 			img.src = url;
+		// 			img.className = 'full';
+		// 			div.appendChild(img);
+		// 			// h1.parentNode.replaceChild(img, h1)
+		// 			h1.parentNode.insertBefore(div, h1.nextSibling)
+		// 			// let html = `
+		// 			// <div class="empty-left-page">??</div>
+		// 			// <div class="title-page"><img src="${url}" alt="${text}"/></div>
+		// 			// `;
+		// 			// let n = document.createRange().createContextualFragment(html);
+		// 			// h1.parentNode.replaceChild(n, h1)
+		// 		} else {
+		// 			console.log('Chapter image missing for ' + text);
+		// 		}
+		// 	}).catch(err => console.log('Error:', err));
+		// }
 	}
 
-}
-
-ready.then(async function () {
-	// paramsToClass();
-	loadingMessage();
-	ui();
-		
-	let flowText = document.querySelector("#source");
-	
-	let t0 = performance.now();
-	Paged.registerHandlers(MM_Handler);
-	let paged = new Paged.Previewer();
-
-	paged.preview(flowText.content).then((flow) => {
-		
-		let t1 = performance.now();
-		console.log( "Rendering Pagedjs " + flow.total + " pages took " + (t1 - t0) + " milliseconds.");
-		t0 = performance.now();
-		const no_p5 = new URLSearchParams(window.location.search).has("no_p5"); // save some time by disabling the p5js backgrounds
-		if (!no_p5) {
-			let numChapters = document.querySelectorAll("h1 .mw-headline").length;
-			let currChapter = 0;
-			for (const i in flow.pages) { 
-				let page = flow.pages[i]; 
-				addPageNumbersToToc(page);
-				alignImagesToBaseline(12);
-			}
-			let i = 0;
-			let render = () => {
-				let page = flow.pages[i]; 
-				let hasH1 = page.area.querySelector("h1");
-				if (hasH1) currChapter++;
-				if(typeof renderSketch === 'function'){
-					renderSketch( page, parseInt(i) + 1, flow.pages.length, numChapters, currChapter );
-				}
-				if(i<flow.pages.length-1) {
-					setTimeout(render, 10);
-					i++;
-				}
-			}
-			render(flow.pages);
+	afterPreview(pages) {
+		this.t0 = performance.now();
+		let numChapters = document.querySelectorAll("h1 .mw-headline").length;
+		let currChapter = 0;
+		for (const i in pages) { 
+			let page = pages[i]; 
+			this.addPageNumbersToToc(page);
+			this.alignImagesToBaseline(12);
 		}
-		t1 = performance.now();
-		console.log( "Rendering backgrounds for " + flow.total + " pages took " + (t1 - t0) + " milliseconds.");
-		removeLoadingMessage();
-	});
+		this.renderBackground(pages, currChapter, numChapters, 0);
+	}
 
-	let addPageNumbersToToc = (page) => {
+	renderBackground( pages, currChapter, numChapters, idx ) {
+		let page = pages[idx]; 
+		let hasH1 = page.area.querySelector("h1");
+		if (hasH1) currChapter++;
+		if(typeof renderSketch === 'function'){
+			renderSketch( page, idx + 1, pages.length, numChapters, currChapter );
+		}
+		if(idx < pages.length - 1) {
+			// setTimeout(render, 10);
+			idx++;
+			this.renderBackground(pages, currChapter, numChapters, idx);
+		} else {
+			removeLoadingMessage();
+			this.t1 = performance.now();
+			console.log( "Rendering backgrounds for " + pages.length + " pages took " + (this.t1 - this.t0) + " milliseconds.");
+		}
+	}
+
+	addPageNumbersToToc (page) {
 		const pages = document.querySelector('.pagedjs_pages');
 		let H2 = page.area.querySelector("h2");
 		if (H2) {
@@ -93,8 +107,8 @@ ready.then(async function () {
 		}
 	}
 
-	let alignImagesToBaseline = (gridSize) => {
-		const imgs = document.querySelectorAll('img');
+	alignImagesToBaseline (gridSize) {
+		const imgs = document.querySelectorAll('img:not(.full)');
 		let rythm = gridSize / 72 * 96; // convert pt to px
 		imgs.forEach((img, i) => {
 			img.parentNode.parentNode.classList.add("image-container") // add class to p remove margins
@@ -103,6 +117,26 @@ ready.then(async function () {
 		});
 	};
 
+
+}
+
+ready.then(async function () {
+	// paramsToClass();
+	loadingMessage();
+	ui();
+		
+	let flowText = document.querySelector("#source");
+	
+	let t0 = performance.now();
+	Paged.registerHandlers(MM_Handler);
+	let paged = new Paged.Previewer();
+
+	paged.preview(flowText.content).then((flow) => {
+		let t1 = performance.now();
+		console.log( "Rendering Pagedjs " + flow.total + " pages took " + (t1 - t0) + " milliseconds.");		
+	});
+
+	
 	let resizer = () => {
 		let pages = document.querySelector(".pagedjs_pages");
 

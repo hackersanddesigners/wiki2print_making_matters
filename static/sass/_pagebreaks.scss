@@ -13,9 +13,10 @@ h2 {
 	page-break-before: always;
 }
 
-.chapter {
-  page-break-before: right;
-}
+// .chapter {
+//   page-break-before: right;
+// 	// page-break-after: left;
+// }
 
 .chapter.chapter-introduction {
 	page-break-before: left !important;
@@ -23,4 +24,16 @@ h2 {
 
 .author {
 	page-break-after: always;
+}
+
+.title-page {
+	page-break-before: right;
+}
+
+.empty-left-page {
+	page-break-before: left;
+}
+
+.full-spread-image-section {
+	page-break-before: left;
 }

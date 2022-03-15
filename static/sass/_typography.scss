@@ -181,7 +181,7 @@ h1 {
 .font-symbola {
 	@include plumber(
 		$baseline: $baseline-symbola,
-		$font-size: pt(12pt),
+		$font-size: pt(11.5pt), // tiny bit smaller to prevent baseline grid drift
 		$leading-top: 0,
 		$leading-bottom: 0,
 	);
