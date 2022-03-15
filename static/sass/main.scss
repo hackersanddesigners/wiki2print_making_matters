@@ -127,22 +127,6 @@ Available color: red, green, brown
 	@top-right {
     content: "";
   }
-	
-}
-
-@page empty-title {
-	@top-left {
-    content: "";
-  }
-	@top-right {
-    content: "";
-  }
-	@top-center {
-    content: "";
-  }
-	@bottom-center {
-		content: "";
-	}
 }
 
 .pagedjs_intro_page + .pagedjs_blank_page {
@@ -199,7 +183,7 @@ Available color: red, green, brown
 	width: calc(var(--pagedjs-width) * 2);
 	height: var(--pagedjs-height);
 	display: flex;
-	justify-content: center;
+	justify-content: right;
 	align-items: center;
 }
 .pagedjs_right_page .full-page-image div {

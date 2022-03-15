@@ -70,20 +70,26 @@ def removeSrcSets(html):
 def insertEmptyPageAfterTitle(soup):
 	import copy
 	h1s = soup.find_all("h1")
+	skip = ["introduction",""]
 	for h1 in h1s: # based on this: https://gitlab.coko.foundation/pagedjs/pagedjs/-/wikis/Quick-solution-&-fix-to-layout-problems
 		text = h1.span.string.strip() # get h1 text.
-		section = soup.new_tag('section', **{"class": 'full-spread-image-section'}) # outer section
-		fpi = soup.new_tag('div', **{"class":'full-page-image full-page-image-left'}) # outer wrapper for image
-		div = soup.new_tag('div') # inner wrapper for image
-		src = "/plugins/Making_Matters_Lexicon/static/images/" + text + ".svg"; # image source. name has to match chapter title
-		img = soup.new_tag('img', **{ "alt": "image for chapter title " + text, "src": src, "class": "full", "title": text})
-		div.append(img) # image in inner div
-		fpi.append(div) # div in outer wrapper
-		section.append(fpi) # wrapper in section
-		fpi2 = copy.copy(fpi)  # copied
-		fpi2['class'] = "full-page-image"
-		section.append(fpi2)
-		h1.replace_with(section) # replaces h1
+		if( text not in skip ):
+			section = soup.new_tag('section', **{"class": 'full-spread-image-section'}) # outer section
+			fpi = soup.new_tag('div', **{"class":'full-page-image full-page-image-left'}) # outer wrapper for image
+			div = soup.new_tag('div') # inner wrapper for image
+			src = "/plugins/Making_Matters_Lexicon/static/images/" + text + ".svg"; # image source. name has to match chapter title
+			img = soup.new_tag('img', **{ "alt": "image for chapter title " + text, "src": src, "class": "full", "title": text})
+			div.append(img) # image in inner div
+			fpi.append(div) # div in outer wrapper
+			section.append(fpi) # wrapper in section
+			fpi2 = copy.copy(fpi)  # copied
+			title = soup.new_tag('div',**{'class': 'chapter-title', 'style': 'display:none'}) # we need this for chapter titles in margin
+			title.string = text
+			fpi.append(title)
+			fpi2['class'] = "full-page-image"
+			section.append(fpi2)
+			h1.replace_with(section) # replaces h1
+		
 	return soup
 
 def add_author_names_toc(soup):

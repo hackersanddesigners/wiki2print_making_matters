@@ -67,9 +67,19 @@
 
 /* Setting variables */
 
-h1 {
-  string-set: chapterTitle content(text);
+// .chapter-title,
+// h1 {
+//   string-set: chapterTitle content(text);
+// }
+
+.full {
+  string-set: chapterTitle attr(title);
 }
+
+.chapter-title {
+	string-set: chapterTitle content(text);
+}
+
 
 h2 {
   counter-increment: countChapter;

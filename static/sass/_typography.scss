@@ -63,7 +63,7 @@ h1 {
       $font-size: pt(9.5pt),
     );
   }
-	.chapter {
+	.pagedjs_page_content {
 		h2 {
 			@include font-combine();
 			@include plumber(
@@ -83,6 +83,10 @@ h1 {
 				$line-height: 2
 			);
 			text-align: center;
+			&:first-child {
+				margin-top: 0;
+				padding-top: 0;
+			}
 		}
 		.author {
 			@include font-authentic(90);
