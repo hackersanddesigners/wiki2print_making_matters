@@ -168,6 +168,10 @@ Available color: red, green, brown
 	line-height: 15pt;
 }
 
+/* mediawiki gives thumbs an inline fixed width */
+.thumbinner.image-container {
+	width: auto !important;
+}
 
 
 .full-page-image {

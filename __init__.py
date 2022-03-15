@@ -43,7 +43,7 @@ def filter(html):
 	soup = BeautifulSoup(html, 'html.parser')
 	soup = add_author_names_toc(soup)
 	soup = insertEmptyPageAfterTitle(soup)
-	html = soup.prettify()
+	html = str(soup)#.prettify() # dont use prettify. It causes whitespace in layout in some instances
 	html = replaceSymbol(html)
 	html = removeSrcSets(html)
 	return html
@@ -72,7 +72,11 @@ def insertEmptyPageAfterTitle(soup):
 	h1s = soup.find_all("h1")
 	skip = ["introduction",""]
 	for h1 in h1s: # based on this: https://gitlab.coko.foundation/pagedjs/pagedjs/-/wikis/Quick-solution-&-fix-to-layout-problems
-		text = h1.span.string.strip() # get h1 text.
+		text = h1.span.string
+		if(text):
+			text = text.strip() # get h1 text.
+		else:
+			text = ""
 		if( text not in skip ):
 			section = soup.new_tag('section', **{"class": 'full-spread-image-section'}) # outer section
 			fpi = soup.new_tag('div', **{"class":'full-page-image full-page-image-left'}) # outer wrapper for image

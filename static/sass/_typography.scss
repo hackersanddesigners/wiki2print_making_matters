@@ -112,6 +112,25 @@ h1 {
 			> p {
 				margin: 0;
 				padding: 0;
+				text-indent: 0;
+			}
+			.footnote {
+				@include font-authentic($weight:150);
+				@include plumber(
+					$baseline: $baseline-authentic,
+					$font-size: pt(10pt),
+					$leading-top: 0,
+					$leading-bottom: 0,
+				);
+				vertical-align: top; 
+				position: relative; 
+				top: -0.2em;
+				margin-left: -2pt;
+				&:after {
+					font-variant-position: initial;
+				}
+				// font-size: 7pt;
+				// line-height: 8.8pt;
 			}
 		}
 		ul,
@@ -185,12 +204,13 @@ h1 {
 }
 
 .font-symbola {
-	@include plumber(
-		$baseline: $baseline-symbola,
-		$font-size: pt(11.5pt), // tiny bit smaller to prevent baseline grid drift
-		$leading-top: 0,
-		$leading-bottom: 0,
-	);
+	// @include plumber(
+	// 	$baseline: $baseline-symbola,
+	// 	$font-size: pt(11.5pt), // tiny bit smaller to prevent baseline grid drift
+	// 	$leading-top: 0,
+	// 	$leading-bottom: 0,
+	// );
+	font-size: 90%;
 }
 
 
@@ -228,6 +248,7 @@ h1 {
 				$baseline: $baseline-authentic,
 				$font-size: pt(6pt),//pt(11pt),
 			);
+			margin-left: 3pt;
 	}
 	.tocsection-1 ul > li {
 		padding-left: 0;
