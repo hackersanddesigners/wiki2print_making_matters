@@ -162,13 +162,16 @@ h1 {
 				$leading-top: 0,
 				$leading-bottom: 0,
 			);
-			// vertical-align: top; 
-			// position: relative; 
-			// top: -0.2em;
-			margin-left: -2pt;
+			vertical-align: top; 
+			position: relative; 
+			top: -0.2em;
+			margin-left: -1pt;
 			&:after {
-				font-variant-position: super;
+				font-variant-position: initial;
 			}
+			// font-size: 7pt;
+			// line-height: 8.8pt;
+
 		}
 		.thumbcaption {
 			@include font-authentic(90);
