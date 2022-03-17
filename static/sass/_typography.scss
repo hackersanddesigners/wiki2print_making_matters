@@ -70,7 +70,7 @@ h1 {
 			@include plumber(
 				$baseline: $baseline-authentic,
 				$font-size: pt(24pt),
-				$line-height: 6,
+				$line-height: 4,
 				$leading-top: 2,
 				$leading-bottom: 0,
 			);

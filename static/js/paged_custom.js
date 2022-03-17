@@ -4,7 +4,7 @@ this.ready = new Promise(function ($) {
 
 
 class MM_Handler extends Paged.Handler {
-	t0 = 0; t1 = 0;
+	t0 = 0; t1 = 0; nodeCount = 0;
 	constructor(chunker, polisher, caller) {
 		super(chunker, polisher, caller);
 		this.chunker = chunker;
@@ -20,11 +20,17 @@ class MM_Handler extends Paged.Handler {
 		c.prepend(n);
 	}
 
+	afterPageLayout() {
+		this.nodeCount++;
+		document.documentElement.style.setProperty('--pages-rendered',"'" + this.nodeCount +"'");
+	}
+
 	beforeParsed(content) {
 		insertUIStyle();
 		this.insertDocumentTitle(content);
 		// remove toc heading
 		content.querySelector("#mw-toc-heading").remove();
+		// this.alignImagesToBaseline(12);
 
 		// let h1s = content.querySelectorAll("h1"); console.log(h1s)
 		// for(let i = 0; i < h1s.length; i++ ) {
@@ -57,6 +63,10 @@ class MM_Handler extends Paged.Handler {
 		// }
 	}
 
+	beforePageLayout(){
+		this.alignImagesToBaseline(12);
+	}
+
 	afterPreview(pages) {
 		this.t0 = performance.now();
 		let numChapters = document.querySelectorAll("h1 .mw-headline").length;
@@ -64,7 +74,7 @@ class MM_Handler extends Paged.Handler {
 		for (const i in pages) { 
 			let page = pages[i]; 
 			this.addPageNumbersToToc(page);
-			this.alignImagesToBaseline(12);
+			
 		}
 		this.renderBackground(pages, currChapter, numChapters, 0);
 	}
@@ -198,7 +208,7 @@ let ui = () => {
 }
 
 let loadingMessage = () => {
-	let html = `<span class="loading-message"><span class="lds-heart"><div></div></span>Rendering...</span>`;
+	let html = `<span class="loading-message"><span class="lds-heart"><div></div></span>Rendering page </span>`;
 	let n = document.createRange().createContextualFragment(html);
 	n.firstElementChild.style.position = "fixed"
 	document.body.append(n)

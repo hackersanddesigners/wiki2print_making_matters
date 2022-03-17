@@ -3,8 +3,9 @@
 
 $baseline-ortica: 0.569;
 $baseline-combine: 0.524;//0.349;
-$baseline-authentic: 0.374;
+$baseline-authentic: 0.522;
 $baseline-symbola: 0.214;
+@debug($baseline-authentic);
 
 @include plumber-set-defaults(
     $grid-height: 6pt,
@@ -15,13 +16,15 @@ $baseline-symbola: 0.214;
 		$baseline: $baseline-ortica,
 );
 
-
 @function strip-units($number) {
   @return math.div($number, ($number * 0 + 1));
 }
 
+/*
+baseline increments in steps of 6pt,
+so 2 units in plumber correspond to one lineheight. 
+*/
 @function pt($size_in_pt) {
   $result: strip-units(calc($size_in_pt / 6));
   @return $result;
 }
-

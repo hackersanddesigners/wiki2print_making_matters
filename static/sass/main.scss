@@ -30,8 +30,11 @@ body {
 }
 
 img {
-	max-width: 100%;
+	width: auto; // height is set with javascript
 	height: auto;
+	max-width: 85%;
+	max-height: 80%;
+	border-radius: 1rem;	
 }
 
 /*
@@ -75,11 +78,6 @@ a {
 content: " (" attr(href) ")";
 } */
 
-img {
-  max-width: 85%;
-	width: auto; // height is set with javascript
-	border-radius: 1rem;	
-}
 
 a.image {
 	display: block;
@@ -168,11 +166,15 @@ Available color: red, green, brown
 	line-height: 15pt;
 }
 
+/* thumbnails, keep caption and image on same page */
+.thumb {
+	break-inside: avoid;
+}
+
 /* mediawiki gives thumbs an inline fixed width */
 .thumbinner.image-container {
 	width: auto !important;
 }
-
 
 .full-page-image {
 	width: var(--pagedjs-width);

@@ -33,7 +33,7 @@
 				<select id="sketch" name="sketch">
 					<option value="0" selected >No backgrounds</option>
 					{# Hardcoded number for now #} 
-					{% for n in range(1,4) %}
+					{% for n in range(1,5) %}
 					<option value="{{n}}" {% if n == sketch | int %}selected{% endif %}>sketch {{n}}</option>
 					{% endfor %}
 				</select>

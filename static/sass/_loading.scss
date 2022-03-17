@@ -13,6 +13,11 @@
 	text-align: center;
 	color: var(--loader-color);
 	z-index: 1000;
+	background-color: rgba(255,255,255,0.3);
+}
+
+.loading-message:after{
+	content: var(--pages-rendered);
 }
 
 .lds-heart {
@@ -22,6 +27,7 @@
   height: 80px;
   transform: rotate(45deg);
   transform-origin: 40px 40px;
+	margin: 0 auto;
 }
 .lds-heart div {
   top: 32px;

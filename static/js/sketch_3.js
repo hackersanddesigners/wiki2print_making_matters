@@ -1,12 +1,7 @@
 function renderSketch(page, num, total, numChapters, currChapter){
 	// get all the terms (from the TOC) and wrap them in a <mark></mark> tag
 	let isRight = page.element.classList.contains("pagedjs_right_page"); // for positioning below
-	const toc_items = document.querySelectorAll("li:not(.tocsection-1,li.toclevel-1:last-of-type) .toclevel-2 > a > .toctext"); // get all terms defined in 
 	const ps = page.element.querySelectorAll('.pagedjs_pages p'); // paragraphs
-	let strings = []; 
-	for(let i = 0; i < toc_items.length; i++ ){
-		strings.push(toc_items[i].innerText.trim());
-	}
 	let str = strings.join("|"); // orrrrr
 	for( let i = 0; i < ps.length; i++ ) {
 		let p = ps[i];
