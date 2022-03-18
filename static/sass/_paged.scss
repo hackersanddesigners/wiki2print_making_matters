@@ -65,6 +65,15 @@
 	margin-top: 1rem;
 }
 
+.pagedjs_pages .pagedjs_blank_page {
+	.pagedjs_margin-bottom-center, .pagedjs_margin-top-center {
+		.pagedjs_margin-content {
+			display: none;
+		}
+	} 
+} 
+
+
 /* Setting variables */
 
 // .chapter-title,
@@ -76,6 +85,7 @@
   string-set: chapterTitle attr(title);
 }
 
+h1,
 .chapter-title {
 	string-set: chapterTitle content(text);
 }

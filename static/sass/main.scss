@@ -41,10 +41,6 @@ img {
 Setting named-pages
 https://pagedjs.org/documentation/8-named-page/
 */
-#introduction,
-.chapter-introduction {
-	page: intro;
-}
 
 #cover {
 	page: toc;
@@ -69,6 +65,9 @@ sup { vertical-align: top; position: relative; top: -0.5em; }
 a {
   text-decoration: none;
   color: black;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
 }
 
 /* Generic css */
@@ -104,14 +103,6 @@ Page margin colors. The color names are specified in sketch.js
 Available color: red, green, brown
 */
 
-@page toc {
-	--base-color: green;
-}
-
-@page intro {
-	--base-color: brown;
-}
-
 @page chapter-title {
 	@top-center {
     content: "";
@@ -125,18 +116,6 @@ Available color: red, green, brown
 	@top-right {
     content: "";
   }
-}
-
-.pagedjs_intro_page + .pagedjs_blank_page {
-	--base-color: brown;
-}
-
-.pagedjs_intro_page + div {
-	--base-color: brown;
-}
-
-.chapter-collective {
-	--base-color: brown;
 }
 
 

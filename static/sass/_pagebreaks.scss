@@ -37,3 +37,9 @@ h2 {
 .full-spread-image-section {
 	page-break-before: left;
 }
+
+.chapter-end {
+	.author {
+		page-break-after: unset;
+	}
+}

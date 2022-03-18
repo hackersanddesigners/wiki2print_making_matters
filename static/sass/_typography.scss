@@ -72,7 +72,7 @@ h1 {
 				$font-size: pt(24pt),
 				$line-height: 4,
 				$leading-top: 2,
-				$leading-bottom: 0,
+				$leading-bottom: 2,
 			);
 			text-align: center;
 		}
@@ -81,7 +81,9 @@ h1 {
 			@include plumber(
 				$baseline: $baseline-authentic,
 				$font-size: pt(10pt),
-				$line-height: 2
+				$line-height: 2,
+				$leading-top: 0,
+				$leading-bottom: 2
 			);
 			text-align: center;
 			&:first-child {
