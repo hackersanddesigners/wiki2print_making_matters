@@ -1,5 +1,5 @@
 #toc {
-	
+	line-height: 1;
 	ul {
 		list-style: none;
 		padding: 0;
@@ -27,25 +27,54 @@
 		& > li {
 			margin-top: 12pt;
 			&:first-of-type {
-				margin-top: 0 !important
+				margin-top: 0 !important;
 			}
 			& > ul {
 				li {
-					padding-left: 1cm;
+					padding-left: 0.5cm;
 				}
 			} 
 		}
 	}
 
-	// .toclevel-2 a {
-	// 	display: inline-block;
-	// }
+	/* fix indent for first and last items */
+	.tocsection-1 ul {
+		margin-top: 0;
+		> li {
+			padding-left: 0;
+			.toctext {
+				display: none;
+			}
+			.tocauthor {
+				margin-left: 0;
+			}
+		}
+	}
 
-	// .toclevel-2 a  {
-	// 	display: initial;
-	// }
-	.toclevel-2 a span.tocPageNumber {
-		float: right;
-		text-align: right;
+	.tocsection-9 ul li {
+		padding-left: 0;
+		.tocauthor {
+		}
+	}
+
+	/* 
+	Here it gets super specific. 
+	Fixing the 'hackers & designers to its own line
+
+	first fix the position of the pagenumber:
+	*/
+	.toclevel-2 a {
+		position: relative;
+		span.tocPageNumber {
+			position: absolute;
+			text-align: right;
+			top: 0;
+			right: 0;
+		}
+	}
+	.tocsection-9 .toclevel-2:nth-child(3) .tocauthor {
+		display: block;
+		margin: 0;
+
 	}
 }

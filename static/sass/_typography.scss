@@ -225,21 +225,24 @@ h1 {
 			@include font-ortica();
 			@include plumber(
 				$baseline: $baseline-ortica,
-				$font-size: pt(7pt),
+				$font-size: pt(12pt),
 				$leading-top: 0,
-				$leading-bottom: 0,
+				$leading-bottom: 2,
 			);
+			// font-size: 13pt;
 		}
 		& > ul {
+			margin-top: 12pt;
 			li .toctext {
 				// padding-left: 1cm;
 				@include font-authentic(90);
 				@include plumber(
 					$baseline: $baseline-authentic,
-					$font-size: pt(7pt),//0.58333333, // 7pt
+					$font-size: pt(11pt),
 					$leading-top: 0,
 					$leading-bottom: 0,
 				);
+				// font-size: 11pt;
 			}
 		} 
 	}
@@ -247,12 +250,20 @@ h1 {
 		@include font-authentic(90);
 			@include plumber(
 				$baseline: $baseline-authentic,
-				$font-size: pt(6pt),//pt(11pt),
+				$font-size: pt(7pt),
 			);
-			margin-left: 3pt;
+		// font-size: 7pt;
+		margin-left: 3pt;
 	}
-	.tocsection-1 ul > li {
-		padding-left: 0;
+	.tocsection-1 > a .toctext {
+		@include font-authentic(90);
+		@include plumber(
+			$baseline: $baseline-authentic,
+			$font-size: pt(11pt),
+			$leading-top: 0,
+			$leading-bottom: 0,
+		);
+		// font-size: 11pt;
 	}
 }
 
