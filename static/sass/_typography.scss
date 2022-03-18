@@ -82,7 +82,7 @@ h1 {
 				$baseline: $baseline-authentic,
 				$font-size: pt(10pt),
 				$line-height: 2,
-				$leading-top: 0,
+				$leading-top: 2,
 				$leading-bottom: 2
 			);
 			text-align: center;
@@ -147,10 +147,13 @@ h1 {
 		}
 		ul {
 			list-style: none;
-			padding-left: 0.5cm;
-		}
-		ul li::marker {
-  		content: '—';
+			padding-left: 9pt;
+			li {
+				padding-left: 0.5cm;
+				&::marker {
+					content: '—';
+				}
+			}
 		}
 		ol {
 			padding-left: 0.5cm;
@@ -194,16 +197,130 @@ h1 {
 		margin-top: 0;
 		padding-top: 0;
 	}
+}
 
-// ul, li {
-// 	@include plumber(
-// 		$line-height: 3,
-// 		$leading-top: 0,
-// 		$leading-bottom: 0
-//     // $baseline: 0.065,
-//     // $font-size: 1,
-//   )
-// }
+
+.pagedjs_pages {
+	.chapter.invert-type {
+		p {
+			@include font-authentic(90);
+			@include plumber(
+				// $baseline: $baseline-ortica,
+				$baseline: $baseline-authentic,
+				$font-size: pt(9.5pt),
+				$leading-top: 0,
+				$leading-bottom: 0,
+			);
+			orphans: 2;
+			widows: 2;
+			text-indent: 0.5cm;
+		}
+
+		h2 {
+			@include font-combine();
+			@include plumber(
+				$baseline: $baseline-combine,
+				$font-size: pt(24pt),
+				$line-height: 4,
+				$leading-top: 2,
+				$leading-bottom: 2,
+			);
+			text-align: center;
+		}
+		h3 {
+			@include font-ortica();
+			@include plumber(
+				$baseline: $baseline-ortica,
+				$font-size: pt(10pt),
+				$line-height: 2,
+				$leading-top: 2,
+				$leading-bottom: 2
+			);
+		}
+
+		b {
+			@include plumber(
+				// $baseline: $baseline-ortica,
+				$font-size: pt(9.5pt),
+				$leading-top: 0,
+				$leading-bottom: 0,
+			);
+		}
+
+		.author {
+			@include font-authentic(90);
+			@include plumber(
+				$baseline: $baseline-authentic,
+				$font-size: pt(7pt),
+				$leading-top: 0,
+				$leading-bottom: 0,
+			);
+			display: block;
+			text-align: center;
+			text-indent: 0;
+		}
+		
+		blockquote {
+			@include font-combine;
+			@include plumber(
+				$baseline: $baseline-combine,
+				$font-size: pt(8.5pt),
+			);
+			margin-left: 1cm;
+			margin-right: 1cm;
+			> p {
+				margin: 0;
+				padding: 0;
+				text-indent: 0;
+			}
+			.footnote {
+				@include font-authentic($weight:150);
+				@include plumber(
+					$baseline: $baseline-authentic,
+					$font-size: pt(10pt),
+					$leading-top: 0,
+					$leading-bottom: 0,
+				);
+			}
+		}
+		ul,
+		ol,
+		dl {
+			@include plumber(
+				$baseline: $baseline-ortica,
+				$font-size: pt(9.5pt),
+				$leading-top: 2,
+				$leading-bottom: 0,
+			);
+		}
+		sup,
+		.footnote {
+			@include font-authentic($weight:150);
+			@include plumber(
+				$baseline: $baseline-authentic,
+				$font-size: pt(7pt),
+				$leading-top: 0,
+				$leading-bottom: 0,
+			);
+		}
+		.thumbcaption {
+			@include font-authentic(90);
+			@include plumber(
+				$baseline: $baseline-authentic,
+				$font-size: pt(7pt),
+				$leading-top: 0,
+				$leading-bottom: 0,
+			);
+			text-align: center;
+		}		
+	}
+	
+	/* we have to disable the baseline grid margin/padding 
+	that Plumber sets above for the first element on a page */
+	.chapter > p:first-child {
+		margin-top: 0;
+		padding-top: 0;
+	}
 }
 
 .font-symbola {
