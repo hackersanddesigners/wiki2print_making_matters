@@ -40,11 +40,7 @@ class MM_Handler extends Paged.Handler {
 		this.t0 = performance.now();
 		let numChapters = document.querySelectorAll('.chapter-title').length;	//document.querySelectorAll("h1 .mw-headline").length;
 		let currChapter = 0;
-		for (const i in pages) { 
-			let page = pages[i]; 
-			this.addPageNumbersToToc(page);
-			
-		}
+		this.addPageNumbersToToc();
 		this.renderBackground(pages, currChapter, numChapters, 0);
 	}
 
@@ -68,23 +64,16 @@ class MM_Handler extends Paged.Handler {
 	}
 
 	addPageNumbersToToc (page) {
-		const pages = document.querySelector('.pagedjs_pages');
-		let H2 = page.area.querySelector("h2");
-		if (H2) {
-			let title = H2.textContent.trim();
-			let auth = H2.nextSibling.textContent.trim();
-			let titles = document.querySelectorAll('.toclevel-2 .toctext');
-			titles.forEach((tocText, i) => {
-				if(tocText.textContent.includes(title)){
-					if(!tocText.nextElementSibling || tocText.nextElementSibling.textContent.includes(auth)) {
-						const span = document.createElement("span");
-						span.className = "tocPageNumber";
-						span.innerText = page.position + 1;
-						tocText.parentNode.appendChild(span);
-					}
-				}
-			});
-		}
+		let titles = document.querySelectorAll('.toclevel-2 .toctext');
+		titles.forEach((tocText, i) => {
+			let a = tocText.parentElement.getAttribute('href');
+			let page = document.getElementById(a.substring(1)).closest('.pagedjs_page');
+			let pageNum = page.getAttribute('data-page-number');
+			const span = document.createElement("span");
+			span.className = "tocPageNumber";
+			span.innerText = pageNum;
+			tocText.parentNode.appendChild(span);
+		});
 	}
 
 	alignImagesToBaseline (gridSize) {
