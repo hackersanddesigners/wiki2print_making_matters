@@ -30,37 +30,6 @@ class MM_Handler extends Paged.Handler {
 		this.insertDocumentTitle(content);
 		// remove toc heading
 		content.querySelector("#mw-toc-heading").remove();
-		// this.alignImagesToBaseline(12);
-
-		// let h1s = content.querySelectorAll("h1"); console.log(h1s)
-		// for(let i = 0; i < h1s.length; i++ ) {
-		// 	let h1 = h1s[i]
-		// 	let text = h1.innerText.trim();
-		// 	let url =  "/plugins/Making_Matters_Lexicon/static/images/" + text + ".svg";
-		// 	fetch(url, { method: 'HEAD' })
-		// 	.then(res => {
-		// 		if (res.ok) {
-		// 			const div = document.createElement("div");
-		// 			div.className = 'title-page';
-		// 			div.id="title-page";
-		// 			const img = document.createElement("img");
-		// 			img.alt = text;
-		// 			img.src = url;
-		// 			img.className = 'full';
-		// 			div.appendChild(img);
-		// 			// h1.parentNode.replaceChild(img, h1)
-		// 			h1.parentNode.insertBefore(div, h1.nextSibling)
-		// 			// let html = `
-		// 			// <div class="empty-left-page">??</div>
-		// 			// <div class="title-page"><img src="${url}" alt="${text}"/></div>
-		// 			// `;
-		// 			// let n = document.createRange().createContextualFragment(html);
-		// 			// h1.parentNode.replaceChild(n, h1)
-		// 		} else {
-		// 			console.log('Chapter image missing for ' + text);
-		// 		}
-		// 	}).catch(err => console.log('Error:', err));
-		// }
 	}
 
 	beforePageLayout(){
@@ -69,7 +38,7 @@ class MM_Handler extends Paged.Handler {
 
 	afterPreview(pages) {
 		this.t0 = performance.now();
-		let numChapters = document.querySelectorAll("h1 .mw-headline").length;
+		let numChapters = document.querySelectorAll('.chapter-title').length;	//document.querySelectorAll("h1 .mw-headline").length;
 		let currChapter = 0;
 		for (const i in pages) { 
 			let page = pages[i]; 
@@ -81,7 +50,8 @@ class MM_Handler extends Paged.Handler {
 
 	renderBackground( pages, currChapter, numChapters, idx ) {
 		let page = pages[idx]; 
-		let hasH1 = page.area.querySelector("h1");
+		console.log( idx, page )
+		let hasH1 = page.area.querySelector(".chapter-title");
 		if (hasH1) currChapter++;
 		if(typeof renderSketch === 'function'){
 			renderSketch( page, idx + 1, pages.length, numChapters, currChapter );

@@ -1,26 +1,20 @@
 function renderSketch(page, num, total, numChapters, currChapter){
 	let isRight = page.element.classList.contains("pagedjs_right_page");
-	console.log(page)
+	console.log(page, num, total, numChapters, currChapter)
 
 	const s = (sketch) => {
 		let canvas, el;
-		let colors = {
-			'green': sketch.color(90,106,92), //#5A6A5C
-			'brown': sketch.color(185,108,54), //#B96C36
-			'blue': sketch.color(98,128,148), // #628094
-			'default': sketch.color(98,128,148), // #628094
-		};
+		let dimensions = {};
 		sketch.setup = () => {
 			el = page.element;
+			dimensions = sketch.getDimensions();
+			
 			canvas = sketch.createCanvas(el.offsetWidth, el.offsetHeight, sketch.SVG);
 			canvas.parent(el);
 			canvas.position(0, 0);
 			canvas.style("z-index", 0);
 			if(!page.element.querySelector("h1")){
-				// let chap = page.element.getElementsByClassName('.chapter');
-				// let c = getComputedStyle(page.element).getPropertyValue('--base-color').trim() || getComputedStyle(chap).getPropertyValue('--base-color').trim() || 'default';
-				let c = getComputedStyle(page.element).getPropertyValue('--base-color').trim() || 'default';
-				let color = colors[c] || colors["default"];
+				let color = sketch.color(0,0,0)
 				sketch.drawPageBorder(color);
 				sketch.drawPageTop(color);
 			}
@@ -29,9 +23,9 @@ function renderSketch(page, num, total, numChapters, currChapter){
 		sketch.drawPageBorder = (color) => {
 			sketch.background(255);
 			let step = sketch.height / numChapters;
-			let left = el.querySelector(".pagedjs_bleed-left").clientWidth;
+			let left = dimensions.bleed.left;
 			if (isRight) {
-				left = sketch.width - parseInt(el.querySelector(".pagedjs_bleed-right").clientWidth);
+				left = sketch.width - dimensions.bleed.right;
 			} 
 			sketch.strokeWeight(20);
 			sketch.stroke(color);	
@@ -62,8 +56,8 @@ function renderSketch(page, num, total, numChapters, currChapter){
 
 		sketch.drawPageTop = (color) => {
 			sketch.stroke(color);	
-			let top = el.querySelector(".pagedjs_bleed-top").clientHeight;
-			let bottom = sketch.height - el.querySelector(".pagedjs_bleed-top").clientHeight;
+			let top = dimensions.bleed.top;
+			let bottom = sketch.height - dimensions.bleed.bottom;
 			if( isRight ) {
 				sketch.borderLine(".pagedjs_margin-top-left", top);
 				/* Feels like I'm going to lose my mind
@@ -78,10 +72,27 @@ function renderSketch(page, num, total, numChapters, currChapter){
 
 		sketch.borderLine = (selector, y) => {
 			const tc = page.element.querySelector(selector);
+			let left = dimensions.bleed.left ;//+ dimensions.margin.left;
 			if(tc.offsetWidth > 0) {
-				sketch.line(tc.offsetLeft, y, tc.offsetLeft+tc.offsetWidth, y );
+				sketch.line(left + tc.offsetLeft, y, left+ tc.offsetLeft + tc.offsetWidth, y );
 			}	
-				
+		}
+
+		sketch.getDimensions = () => {
+			let dimensions = {}
+			dimensions.bleed = sketch.getElementDimensions('bleed');
+			dimensions.margin = sketch.getElementDimensions('margin');
+			return dimensions;
+		}
+
+		sketch.getElementDimensions = (area) => {
+			let dir = ['top', 'bottom', 'right', 'left'];
+			let ret = {};
+			for( let i = 0; i < 4; i++) {
+				let b = el.querySelector('.pagedjs_' + area + '-' + dir[i]);
+				ret[dir[i]] = (i < 2 ) ? b.clientHeight : b.clientWidth;
+			}
+			return ret;
 		}
 
 		// sketch.draw = () => {};
