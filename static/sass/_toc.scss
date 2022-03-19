@@ -57,6 +57,44 @@
 		}
 	}
 
+	/* ⇢ ⇛ ⟴ ↦ ↬ ↣ ⇝ */
+	.toclevel-1 > a {
+		&:before {
+			// content: "⇢";
+			@include font-symbola();
+			line-height: 12pt;
+			font-size: 14pt;
+		}
+	}
+
+	.tocsection-2 > a:before {
+		content: "⇢"
+	}
+
+	.tocsection-3 > a:before {
+		content: "⇛"
+	}
+
+	.tocsection-4 > a:before {
+		content: "⟴"
+	}
+
+	.tocsection-5 > a:before {
+		content: "↦"
+	}
+
+	.tocsection-6 > a:before {
+		content: "↬"
+	}
+
+	.tocsection-7 > a:before {
+		content: "↣"
+	}
+
+	.tocsection-8 > a:before {
+		content: "⇝"
+	}
+
 	/* 
 	Here it gets super specific. 
 	Fixing the 'hackers & designers to its own line

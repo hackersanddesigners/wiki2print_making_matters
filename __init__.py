@@ -19,6 +19,10 @@ plugin = Plugin(
 		static_folder='static',
 		template_folder='template'
 )
+
+# Endpoint for the plugin for getting the rendered publication
+# path: /plugin/<plugin-name>/pdf/<publication-name>
+# plugin & application name are probably the same
 	
 @plugin.route('/pdf/<string:pagename>', methods=['GET', 'POST'])
 def pagedjs(pagename):	
@@ -38,6 +42,10 @@ def pagedjs(pagename):
 		grid = grid,
 	))
 
+# The filters in this plugin work on request time
+# this endpoint returns the filtered html, 
+# but theres no link in the UI to get to it.
+
 @plugin.route('/html_filtered/<string:pagename>', methods=['GET', 'POST'])
 def filtered_html(pagename):
 	publication = get_publication(
@@ -53,6 +61,7 @@ def filtered_html(pagename):
 		css   = publication['css']
 	))
 
+# misc transformations of the mediawiki html
 def filter(html):
 	print("filtering...")	
 	soup = BeautifulSoup(html, 'html.parser')
@@ -77,7 +86,7 @@ def removeSrcSets(html):
 	return html
 
 # somehow Beautifulsoup unhides the caching comment
-# let's remove it :)
+# so let's remove it
 # def removeCacheReport(html):
 # 	import re
 # 	html = re.sub(r"NewPP limit report.+JSON.", "", html, flags=re.DOTALL)
@@ -103,6 +112,8 @@ def insertEmptyPageAfterTitle(soup):
 			section.div.div.append(title)
 	return soup
 
+# Creates the html necessary for spreads
+
 def createSpreadSection(soup, img):
 	section = soup.new_tag('section', **{"class": 'full-spread-image-section'}) # outer section
 	fpi = soup.new_tag('div', **{"class":'full-page-image full-page-image-left'}) # outer wrapper for image
@@ -119,6 +130,9 @@ def createSpreadSection(soup, img):
 	return section
 	# h1.replace_with(section) # replaces h1
 
+# Find span.spread in the contetn and replace
+# them with the spread html
+
 def imageSpreads(soup):
 	spreads = soup.find_all('span', class_='spread')
 	if( spreads ):
@@ -128,6 +142,9 @@ def imageSpreads(soup):
 			section = createSpreadSection(soup, img)
 			spread.replace_with(section)
 	return soup
+
+# Finds span.author tags in the piblication
+# matching the the TOC lines
 	
 def add_author_names_toc(soup):
 	sub_headers = soup.findAll('h2')
