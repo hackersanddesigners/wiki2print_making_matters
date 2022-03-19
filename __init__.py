@@ -59,7 +59,7 @@ def filter(html):
 	soup = add_author_names_toc(soup)
 	soup = insertEmptyPageAfterTitle(soup)
 	soup = imageSpreads(soup)
-	html = soup.prettify() # dont use prettify. It causes whitespace in layout in some instances #str(soup)#
+	html = str(soup) #soup.prettify() # dont use prettify. It causes whitespace in layout in some instances #
 	html = replaceSymbol(html)
 	html = removeSrcSets(html)
 	return html
