@@ -1,0 +1,31 @@
+{% extends "base.html" %} 
+
+{% block head %}
+<title> {{ title }} </title>
+<link href="{{ url_for('static', filename='css/print.css') }}" rel="stylesheet" type="text/css" media="screen">
+<link href="{{ url_for('static', filename=title + '.css') }}" rel="stylesheet" type="text/css" media="screen">
+<style>
+  main#inspect {
+		display: flex;
+	}
+  main#inspect div.content {
+    flex-basis: 70%;
+  }
+  main#inspect div.styles {
+    flex-basis: 30%;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<main id="inspect">
+  <div class="content">
+    {{ html | safe }}
+  </div>
+  <div class="styles">
+    <pre>
+      {{ css | safe }}
+    </pre>
+  </div>
+</main>
+{% endblock %}

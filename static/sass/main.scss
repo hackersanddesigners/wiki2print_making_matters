@@ -15,6 +15,7 @@ https://jamonserrano.github.io/plumber-sass/
 @import "toc";
 @import "debug";
 @import "pagebreaks";
+@import "spreads";
 @import "loading";
 @import "ui";
 
@@ -154,33 +155,3 @@ Available color: red, green, brown
 .thumbinner.image-container {
 	width: auto !important;
 }
-
-.full-page-image {
-	width: var(--pagedjs-width);
-	height: var(--pagedjs-height);
-	overflow: hidden;
-	left: calc(calc(var(--pagedjs-bleed-left) + var(--pagedjs-margin-left))*-1);
-	top: calc(calc(var(--pagedjs-bleed-top) + var(--pagedjs-margin-top))*-1);
-	position: absolute;
-	background-color: black;
-}
-.full-page-image div {
-	width: calc(var(--pagedjs-width) * 2);
-	height: var(--pagedjs-height);
-	display: flex;
-	justify-content: right;
-	align-items: center;
-}
-.pagedjs_right_page .full-page-image div {
-	margin-left: calc(-1 * var(--pagedjs-width));
-}
-.full-page-image img {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-}
-
-.full-page-image-left {
-	page-break-after: always;
-}
-

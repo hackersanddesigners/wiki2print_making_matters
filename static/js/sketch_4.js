@@ -88,8 +88,8 @@ function renderSketch(page, num, total, numChapters, currChapter){
 	const s = (sketch) => {
 		let canvas, el;
 		let dimensions = {};
-		let lineHeight = 16;
-		let lineHeightHalf = lineHeight/2;
+		let lineHeight = 16; // baseline grid is 12pt => 16px
+		let lineHeightHalf = lineHeight/2; // for convience
 		
 		sketch.setup = () => {
 			el = page.element;
@@ -100,26 +100,24 @@ function renderSketch(page, num, total, numChapters, currChapter){
 			sketch.ellipseMode(sketch.CENTER);
 			dimensions.bleed = sketch.getDimensions('bleed');
 			dimensions.margin = sketch.getDimensions('margin');
-			let left = dimensions.bleed.left + 2;// + dimensions.margin.left;
-			let step = 1;
+			let left = dimensions.bleed.left + 2;// start at 2px of the left margin
+			let step = 1; // move line for each term 1px to the right
 			if (!isLeft) {
-				left = sketch.width - dimensions.bleed.right - 2; // - dimensions.margin.right;
-				step = -1;
+				left = sketch.width - dimensions.bleed.right - 2; // start at 2px of the right margin
+				step = -1; // move line 1px left
 			} 
 
-
-			let marks = el.querySelectorAll("mark");
+			let marks = el.querySelectorAll("mark"); // find all mark elements on this page
 			for( let i = 0; i < marks.length; i++ ) {
 				let mark = marks[i];
 				let text = mark.innerText;
-				let top = mark.offsetTop;
+				let top = mark.offsetTop; 
 				let line = sketch.topToLine(top);
-				// console.log(page)/
 				console.log(`found term ${text} at line ${line+1} on page ${page.position + 1}` )
 				this._sketch_.foundTerm(text,line,isLeft?"left":"right");
 			}
 
-			const s = window._sketch_.STATE;
+			const s = window._sketch_.STATE; // preserve the data in a global object
 			const keys = Object.keys(s);
 			sketch.strokeWeight(0.1);
 			sketch.noFill();
@@ -127,19 +125,17 @@ function renderSketch(page, num, total, numChapters, currChapter){
 			let x = left;
 			keys.forEach((term, index) => {
 				// term = keys[0]
-				// console.log(term)
-				// get points for term
-				points = sketch.getPoints(term,isLeft?"left":"right");
-				// console.log(points)
+				points = sketch.getPoints( term, isLeft ? "left" : "right"); // get points for term
 				if( points.length > 0 ) {
-					let line = points[0][0];
-					let depth = points[0][1];
+					let line = points[0][0]; // [0] -> line number
+					let depth = points[0][1]; // [1] -> 'depth' 10 = current page, lower is previous pages
 					let y = 0;
 					for(let i = 0; i < points.length; i++){
 						line = points[i][0];
 						depth = points[i][1];
 						let ny = sketch.lineToPoint(line);
-						sketch.line(x, y + lineHeightHalf,x, ny - lineHeightHalf )
+						// sketch.line(x, y + lineHeightHalf,x, ny - lineHeightHalf )
+						sketch.line(x, y + depth,x, ny - depth )
 						sketch.pointer(x,ny,depth,isLeft?true:false);
 						y = ny;
 						if(depth == 10 ){
@@ -148,7 +144,8 @@ function renderSketch(page, num, total, numChapters, currChapter){
 							sketch.noFill();
 						}
 					}
-					sketch.line(x, y + lineHeightHalf, x, sketch.height) // line from last point to bottom of page
+					// sketch.line(x, y + lineHeightHalf, x, sketch.height) // line from last point to bottom of page
+					sketch.line(x, y + depth, x, sketch.height) // line from last point to bottom of page
 				} else {
 					sketch.line(x,0,x,sketch.height);
 				}
@@ -176,8 +173,8 @@ function renderSketch(page, num, total, numChapters, currChapter){
 			if ( invert ) {
 				o *= -1;
 			}
-			sketch.bezier(x, y-lineHeightHalf, x, y, x, y, x-o, y)
-			sketch.bezier(x-o, y, x, y, x, y, x, y+lineHeightHalf)
+			sketch.bezier(x, y-d, x, y, x, y, x-o, y)
+			sketch.bezier(x-o, y, x, y, x, y, x, y+d)
 		}
 
 		sketch.topToLine = ( top ) => {

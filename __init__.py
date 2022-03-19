@@ -3,9 +3,9 @@ from flask import request
 from flask_plugin import Plugin
 from api import *
 from bs4 import BeautifulSoup
-import re
+import re, copy, sys
 # import config
-import sys
+
 sys.path.insert(0, '.../../..')
 from config import config as conf
 
@@ -37,13 +37,29 @@ def pagedjs(pagename):
 		sketch = sketch,
 		grid = grid,
 	))
-	
+
+@plugin.route('/html_filtered/<string:pagename>', methods=['GET', 'POST'])
+def filtered_html(pagename):
+	publication = get_publication(
+		WIKI,
+		SUBJECT_NS,
+		STYLES_NS,
+		pagename,
+	)
+	return filter(flask.render_template(
+		'inspect.html', 
+		title = pagename,
+		html  = publication['html'],
+		css   = publication['css']
+	))
+
 def filter(html):
 	print("filtering...")	
 	soup = BeautifulSoup(html, 'html.parser')
 	soup = add_author_names_toc(soup)
 	soup = insertEmptyPageAfterTitle(soup)
-	html = str(soup)#.prettify() # dont use prettify. It causes whitespace in layout in some instances
+	soup = imageSpreads(soup)
+	html = soup.prettify() # dont use prettify. It causes whitespace in layout in some instances #str(soup)#
 	html = replaceSymbol(html)
 	html = removeSrcSets(html)
 	return html
@@ -68,7 +84,6 @@ def removeSrcSets(html):
 # 	return html
 
 def insertEmptyPageAfterTitle(soup):
-	import copy
 	h1s = soup.find_all("h1")
 	skip = ["introduction",""]
 	for h1 in h1s: # based on this: https://gitlab.coko.foundation/pagedjs/pagedjs/-/wikis/Quick-solution-&-fix-to-layout-problems
@@ -78,27 +93,44 @@ def insertEmptyPageAfterTitle(soup):
 		else:
 			text = ""
 		if( text not in skip ):
-			section = soup.new_tag('section', **{"class": 'full-spread-image-section'}) # outer section
-			fpi = soup.new_tag('div', **{"class":'full-page-image full-page-image-left'}) # outer wrapper for image
-			div = soup.new_tag('div') # inner wrapper for image
 			src = "/plugins/Making_Matters_Lexicon/static/images/" + text + ".svg"; # image source. name has to match chapter title
 			img = soup.new_tag('img', **{ "alt": "image for chapter title " + text, "src": src, "class": "full", "title": text})
-			div.append(img) # image in inner div
-			fpi.append(div) # div in outer wrapper
-			section.append(fpi) # wrapper in section
-			fpi2 = copy.copy(fpi)  # copied
+			section = createSpreadSection( soup, img )
+			section['class'] = section['class'] + ["title-spread"]	
+			h1.replace_with(section) # replaces h1
 			title = soup.new_tag('div',**{'class': 'chapter-title', 'style': 'display:none'}) # we need this for chapter titles in margin
 			title.string = text
-			fpi.append(title)
-			fpi2['class'] = "full-page-image"
-			section.append(fpi2)
-			h1.replace_with(section) # replaces h1
-		
+			section.div.div.append(title)
 	return soup
 
+def createSpreadSection(soup, img):
+	section = soup.new_tag('section', **{"class": 'full-spread-image-section'}) # outer section
+	fpi = soup.new_tag('div', **{"class":'full-page-image full-page-image-left'}) # outer wrapper for image
+	div = soup.new_tag('div') # inner wrapper for image
+	if( img ):
+		div.append(img) # image in inner div
+	else:
+		print( "missing image for spread?	")
+	fpi.append(div) # div in outer wrapper
+	section.append(fpi) # wrapper in section
+	fpi2 = copy.copy(fpi)  # copied
+	fpi2['class'] = "full-page-image"
+	section.append(fpi2)
+	return section
+	# h1.replace_with(section) # replaces h1
+
+def imageSpreads(soup):
+	spreads = soup.find_all('span', class_='spread')
+	if( spreads ):
+		for spread in spreads:
+			print(spread)
+			img = spread.find("img")
+			section = createSpreadSection(soup, img)
+			spread.replace_with(section)
+	return soup
+	
 def add_author_names_toc(soup):
 	sub_headers = soup.findAll('h2')
-
 	for sub_header in sub_headers:
 		sub_header_headline = sub_header.find('span', class_='mw-headline')
 		if sub_header_headline:
