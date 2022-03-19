@@ -1,0 +1,7 @@
+supervisor
+flask
+flask_plugin
+bs4
+nltk
+beautifulsoup4=4.10.0=pypi_0
+flask-plugin=0.1.0=pypi_0
