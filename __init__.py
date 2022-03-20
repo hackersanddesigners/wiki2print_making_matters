@@ -3,7 +3,7 @@ from flask import request
 from flask_plugin import Plugin
 from api import *
 from bs4 import BeautifulSoup
-import re, copy, sys
+import re, copy, sys, os, glob
 # import config
 
 sys.path.insert(0, '.../../..')
@@ -17,7 +17,7 @@ sketch = 0
 
 plugin = Plugin(
 		static_folder='static',
-		template_folder='template'
+		template_folder='templates'
 )
 
 # Endpoint for the plugin for getting the rendered publication
@@ -40,7 +40,11 @@ def pagedjs(pagename):
 		html  = publication['html'],
 		sketch = sketch,
 		grid = grid,
+		numSketches = numSketches()
 	))
+ 
+def numSketches():
+		return len(glob.glob(os.path.join(os.path.dirname(__file__), 'static/js/sketch*')))
 
 # The filters in this plugin work on request time
 # this endpoint returns the filtered html, 

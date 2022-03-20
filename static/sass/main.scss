@@ -155,3 +155,35 @@ Available color: red, green, brown
 .thumbinner.image-container {
 	width: auto !important;
 }
+
+mark {
+	background: rgba(255,255,0,0.3);
+}
+
+mark:after {
+	@include font-symbola();
+	line-height: 12pt;
+	font-size: 10pt;
+}
+// ⇢ ⇛ ⟴ ↦ ↬ ↣ ⇝
+.c1:after {
+	content: "⇢";
+}
+.c2:after {
+	content: "⇛";
+}
+.c3:after {
+	content: "⟴";
+}
+.c4:after {
+	content: "↦";
+}
+.c5:after {
+	content: "↬";
+}
+.c6:after {
+	content: "↣";
+}
+.c7:after {
+	content: "⇝";
+}

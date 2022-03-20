@@ -46,7 +46,6 @@ class MM_Handler extends Paged.Handler {
 
 	renderBackground( pages, currChapter, numChapters, idx ) {
 		let page = pages[idx]; 
-		console.log( idx, page )
 		let hasH1 = page.area.querySelector(".chapter-title");
 		if (hasH1) currChapter++;
 		if(typeof renderSketch === 'function'){
