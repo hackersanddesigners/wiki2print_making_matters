@@ -1,6 +1,9 @@
+:root {
+	--rendering-stage: 'page';
+	--loader-color: #5A6A5C;
+}
 
 .loading-message {
-	--loader-color: #5A6A5C;
 	position: absolute;
 	display: inline-block;
 	top: 50px;
@@ -17,7 +20,7 @@
 }
 
 .loading-message:after{
-	content: var(--pages-rendered);
+	content: var(--rendering-stage) " " var(--pages-rendered);
 }
 
 .lds-heart {

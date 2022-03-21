@@ -52,9 +52,11 @@ class MM_Handler extends Paged.Handler {
 			renderSketch( page, idx + 1, pages.length, numChapters, currChapter );
 		}
 		if(idx < pages.length - 1) {
-			// setTimeout(render, 10);
 			idx++;
-			this.renderBackground(pages, currChapter, numChapters, idx);
+			setTimeout(() => {this.renderBackground(pages, currChapter, numChapters, idx)}, 100);
+			document.documentElement.style.setProperty('--pages-rendered',"'" + idx +"'");
+			document.documentElement.style.setProperty('--rendering-stage',"'background'");
+			// this.renderBackground(pages, currChapter, numChapters, idx);
 		} else {
 			removeLoadingMessage();
 			this.t1 = performance.now();
@@ -166,7 +168,7 @@ let ui = () => {
 }
 
 let loadingMessage = () => {
-	let html = `<span class="loading-message"><span class="lds-heart"><div></div></span>Rendering page </span>`;
+	let html = `<span class="loading-message"><span class="lds-heart"><div></div></span>Rendering  </span>`;
 	let n = document.createRange().createContextualFragment(html);
 	n.firstElementChild.style.position = "fixed"
 	document.body.append(n)
