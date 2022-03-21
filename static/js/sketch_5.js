@@ -8,12 +8,12 @@ class sketchData {
 			this.STATE[chapter]['left'] = [] // keep "score" for each line
 			this.STATE[chapter]['right'] = [] // keep "score" for each line
 		}
-		console.log( this.STATE)
+		// console.log( this.STATE)
 	}
 
 	foundTerm(chapter, value, line, side ){
 		this.STATE[chapter][side][line] = value;
-		console.log(`set "${chapter}" line ${line} to ${this.STATE[chapter][side][line]}`)
+		// console.log(`set "${chapter}" line ${line} to ${this.STATE[chapter][side][line]}`)
 	}
 
 	// decrement the 'score' for each line
@@ -26,7 +26,7 @@ class sketchData {
 				keys.forEach((line, index) => {
 					if(this.STATE[chapter][side][line] > 0){
 						this.STATE[chapter][side][line] *= 0.9;
-						console.log(`decrement page ${chapter}/${side}, line ${line} to ${this.STATE[chapter][side][line]}`)
+						// console.log(`decrement page ${chapter}/${side}, line ${line} to ${this.STATE[chapter][side][line]}`)
 					}
 				} );
 			}
@@ -65,7 +65,7 @@ function renderSketch(page, num, total, numChapters, currChapter){
 		
 		sketch.setup = () => {
 			el = page.element;
-			console.log(el)
+			// console.log(el)
 			canvas = sketch.createCanvas(el.offsetWidth, el.offsetHeight, sketch.SVG);
 			canvas.parent(el);
 			canvas.position(0, 0);
@@ -109,7 +109,7 @@ function renderSketch(page, num, total, numChapters, currChapter){
 				sketch.line(x, t2, x, b2 );
 
 				let lines = window._sketch_.STATE[chapter][isLeft ? "left" : "right"];
-				console.log(lines, window._sketch_.STATE)
+				// console.log(lines, window._sketch_.STATE)
 				let y = 0;
 				const keys = Object.keys(lines);
 				// console.log(keys)	
@@ -171,7 +171,7 @@ function renderSketch(page, num, total, numChapters, currChapter){
 				let num = parseInt(mark.className.substring(1))
 				let top = mark.offsetTop; 
 				let line = sketch.topToLine(top);
-				console.log(`found chapter ${num} at line ${line+1} on page ${page.position + 1}` )
+				// console.log(`found chapter ${num} at line ${line+1} on page ${page.position + 1}` )
 				this._sketch_.foundTerm(num,10,line,isLeft?"left":"right");
 				this._sketch_.foundTerm(num,sketch.random(3,6),line - 1,isLeft?"left":"right");
 				this._sketch_.foundTerm(num,sketch.random(3,6),line + 1,isLeft?"left":"right");

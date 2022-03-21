@@ -41,7 +41,11 @@ class MM_Handler extends Paged.Handler {
 		let numChapters = document.querySelectorAll('.chapter-title').length;	//document.querySelectorAll("h1 .mw-headline").length;
 		let currChapter = 0;
 		this.addPageNumbersToToc();
-		this.renderBackground(pages, currChapter, numChapters, 0);
+		if(typeof renderSketch === 'function'){
+			this.renderBackground(pages, currChapter, numChapters, 0);
+		} else {
+			removeLoadingMessage();
+		}
 	}
 
 	renderBackground( pages, currChapter, numChapters, idx ) {
@@ -53,7 +57,7 @@ class MM_Handler extends Paged.Handler {
 		}
 		if(idx < pages.length - 1) {
 			idx++;
-			setTimeout(() => {this.renderBackground(pages, currChapter, numChapters, idx)}, 100);
+			setTimeout(() => {this.renderBackground(pages, currChapter, numChapters, idx)}, 10);
 			document.documentElement.style.setProperty('--pages-rendered',"'" + idx +"'");
 			document.documentElement.style.setProperty('--rendering-stage',"'background'");
 			// this.renderBackground(pages, currChapter, numChapters, idx);
