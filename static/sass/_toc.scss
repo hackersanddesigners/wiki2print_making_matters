@@ -7,6 +7,7 @@
 
 	li {
 		display: block;
+		padding-left: 0;
 	}
 
 	/* the anchors mess up the baseline grid. 
@@ -16,16 +17,11 @@
 		height: 12pt;
 	}
 
-	.tocnumber {
-		display: none;
-	}
-	.toctitle {
-		display: none;
-	}
 	& > ul {
 		margin-top: 0;
 		& > li {
 			margin-top: 12pt;
+			padding-left: 0;
 			&:first-of-type {
 				margin-top: 0 !important;
 			}
@@ -35,6 +31,13 @@
 				}
 			} 
 		}
+	}
+
+	.tocnumber {
+		display: none;
+	}
+	.toctitle {
+		display: none;
 	}
 
 	/* fix indent for first and last items */
