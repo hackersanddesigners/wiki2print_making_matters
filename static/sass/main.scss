@@ -157,12 +157,16 @@ Available color: red, green, brown
 }
 
 mark {
-	background: rgba(255,255,0,0.3);
+	background-color: transparent;;
+}
+/* for debugging */
+.grid mark {
+	background-color: rgba(255,255,0,0.3);
 }
 
 mark:after {
 	@include font-symbola();
-	line-height: 12pt;
+	line-height: 10	pt;
 	font-size: 10pt;
 }
 // ⇢ ⇛ ⟴ ↦ ↬ ↣ ⇝
