@@ -403,7 +403,7 @@ h1 {
 	text-align: center;
 }
 
-span.footnote {
+.pagedjs_footnote_area .footnote {
   @include font-authentic($weight:90);
 	font-size: 7pt;
 	line-height: 8.8pt;
