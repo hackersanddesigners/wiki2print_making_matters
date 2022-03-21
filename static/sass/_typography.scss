@@ -207,6 +207,7 @@ h1 {
 	.chapter > p:first-child {
 		margin-top: 0;
 		padding-top: 0;
+		text-indent: 0;
 	}
 }
 
@@ -322,15 +323,7 @@ h1 {
 				$leading-top: 0,
 				$leading-bottom: 0,
 			);
-			text-align: center;
 		}		
-	}
-	
-	/* we have to disable the baseline grid margin/padding 
-	that Plumber sets above for the first element on a page */
-	.chapter > p:first-child {
-		margin-top: 0;
-		padding-top: 0;
 	}
 }
 
