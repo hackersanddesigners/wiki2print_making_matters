@@ -118,6 +118,19 @@ def insertEmptyPageAfterTitle(soup):
 	return soup
 
 # Creates the html necessary for spreads
+# <section class="full-spread-image-section">
+# 	<div class="full-page-image full-page-image-left">
+# 		<div>
+# 			<img src="src" />
+# 		</div>
+# 	</div>
+# 	<div class="full-page-image">
+# 		<div>
+# 			<img src="src" />
+# 		</div>
+# 	</div>
+# </section>
+
 
 def createSpreadSection(soup, img):
 	section = soup.new_tag('section', **{"class": 'full-spread-image-section'}) # outer section
@@ -139,13 +152,23 @@ def createSpreadSection(soup, img):
 # them with the spread html
 
 def imageSpreads(soup):
-	spreads = soup.find_all('span', class_='spread')
+	spreads = soup.find_all(class_='spread')
 	if( spreads ):
 		for spread in spreads:
-			print(spread)
 			img = spread.find("img")
-			section = createSpreadSection(soup, img)
-			spread.replace_with(section)
+			if( not img ):
+				print( "missing image for spread?	", spread)
+			else:
+				section = createSpreadSection(soup, img)
+				if(spread.find(class_='thumbcaption')): # is thumbnail, check for caption
+					caption = spread.find(class_='thumbcaption').contents[1]
+					print(spread.find(class_='thumbcaption').contents[1], str(caption))
+					cap_el = soup.new_tag('div', **{"class": 'full-spread-image-caption'}) # outer section
+					cap_el.string = caption
+					section.div.next_sibling.append(cap_el) # append the caption to the right page
+					print(section)
+				
+				spread.replace_with(section)
 	return soup
 
 # Finds span.author tags in the piblication

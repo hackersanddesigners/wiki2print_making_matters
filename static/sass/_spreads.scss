@@ -37,3 +37,11 @@
 .title-spread .full-page-image {
 	background-color: black;
 }
+
+.full-spread-image-section .full-page-image div.full-spread-image-caption {
+	bottom: calc(var(--pagedjs-bleed-bottom) + var(--pagedjs-margin-bottom));
+	height: auto;
+	position: absolute;
+	width: 100%;
+	right: 0;
+}
