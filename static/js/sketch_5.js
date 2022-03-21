@@ -93,7 +93,7 @@ function renderSketch(page, num, total, numChapters, currChapter){
 		sketch.drawMarks = (left,step, currChapter, numChapters) => {
 			const s = window._sketch_.STATE; // preserve the data in a global object
 			const keys = Object.keys(s);
-			sketch.strokeWeight(12);
+			sketch.strokeWeight(16);
 			sketch.noFill();
 			sketch.ellipseMode(sketch.CENTER)
 			let chapStep = sketch.height / numChapters;
@@ -118,8 +118,8 @@ function renderSketch(page, num, total, numChapters, currChapter){
 					if( lines[i] > 0 ) {
 						let depth = lines[i];
 						if(!isLeft) depth *= -1;
-						let from = sketch.lineNumberToPx(i);
-						let to = from + 16;
+						let from = sketch.lineNumberToPx(i) - 16
+						let to = from + 32;
 						if ( (from < b1 && to < b1 ) || from > t2 ) { // only if line does not overlap chapter gap
 							sketch.line(x+depth,from,x+depth,to)
 						}
@@ -173,8 +173,8 @@ function renderSketch(page, num, total, numChapters, currChapter){
 				let line = sketch.topToLine(top);
 				// console.log(`found chapter ${num} at line ${line+1} on page ${page.position + 1}` )
 				this._sketch_.foundTerm(num,10,line,isLeft?"left":"right");
-				this._sketch_.foundTerm(num,sketch.random(3,6),line - 1,isLeft?"left":"right");
-				this._sketch_.foundTerm(num,sketch.random(3,6),line + 1,isLeft?"left":"right");
+				// this._sketch_.foundTerm(num,sketch.random(3,6),line - 1,isLeft?"left":"right");
+				// this._sketch_.foundTerm(num,sketch.random(3,6),line + 1,isLeft?"left":"right");
 			}
 		}
 		sketch.pointer = (x, y, d, invert) => {
