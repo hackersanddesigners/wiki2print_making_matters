@@ -34,7 +34,7 @@ h1 {
 }
 
 .pagedjs_pages {
-  .chapter p {
+  p {
 		@include plumber(
 			$baseline: $baseline-ortica,
 			$font-size: pt(9.5pt),
@@ -64,7 +64,7 @@ h1 {
     );
   }
 	
-	.chapter {
+	// .chapter {
 		h2 {
 			@include font-combine();
 			@include plumber(
@@ -155,8 +155,19 @@ h1 {
 				}
 			}
 		}
+		ol li {
+			counter-increment: muffins
+		}
+		ol li:before {
+			content: attr(data-item-num) ". ";
+			position: absolute;
+			left: 0;
+		}
 		ol {
-			padding-left: 0.5cm;
+			// padding-left: 0.5cm;
+			position: relative;
+			list-style: none;
+			counter-reset: muffins;
 		}
 		sup,
 		.footnote {
@@ -189,7 +200,7 @@ h1 {
 			text-align: center;
 		}		
 
-	}
+	// }
 
 	/* we have to disable the baseline grid margin/padding 
 	that Plumber sets above for the first element on a page */

@@ -48,7 +48,8 @@ def numSketches():
 
 # The filters in this plugin work on request time
 # this endpoint returns the filtered html, 
-# but theres no link in the UI to get to it.
+# Theres no link in the UI to get to it.
+# path: /plugin/<plugin-name>/html_filtered/<publication-name>
 
 @plugin.route('/html_filtered/<string:pagename>', methods=['GET', 'POST'])
 def filtered_html(pagename):
