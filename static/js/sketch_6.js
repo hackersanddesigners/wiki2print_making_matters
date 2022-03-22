@@ -83,7 +83,7 @@ function renderSketch(page, num, total, numChapters, currChapter){
 			sketch.findMarks(page);
 			sketch.drawMarks(left, step, currChapter, numChapters);
 			sketch.drawPageTop();
-			
+
 			if (!isLeft) {
 				window._sketch_.update() // on a new spread we decrement all the values
 			}
@@ -93,7 +93,7 @@ function renderSketch(page, num, total, numChapters, currChapter){
 		sketch.drawMarks = (left,step, currChapter, numChapters) => {
 			const s = window._sketch_.STATE; // preserve the data in a global object
 			const keys = Object.keys(s);
-			sketch.strokeWeight(16);
+			sketch.strokeWeight(20);
 			sketch.noFill();
 			sketch.ellipseMode(sketch.CENTER)
 			let chapStep = sketch.height / numChapters;
@@ -105,8 +105,8 @@ function renderSketch(page, num, total, numChapters, currChapter){
 				let b1 = chapStep * ( currChapter - 1 ); // top of chapter gap
 				let t2 = chapStep * currChapter; // bottom of chapter gap
 				let b2 = sketch.height;
-				sketch.line(x, t1, x, b1 );
-				sketch.line(x, t2, x, b2 );
+				// sketch.line(x, t1, x, b1 );
+				// sketch.line(x, t2, x, b2 );
 
 				let lines = window._sketch_.STATE[chapter][isLeft ? "left" : "right"];
 				// console.log(lines, window._sketch_.STATE)
@@ -121,7 +121,10 @@ function renderSketch(page, num, total, numChapters, currChapter){
 						let from = sketch.lineNumberToPx(i) - 16
 						let to = from + 32;
 						if ( (from < b1 && to < b1 ) || from > t2 ) { // only if line does not overlap chapter gap
-							sketch.line(x+depth,from,x+depth,to)
+							// sketch.line(x+depth,from,x+depth,to)
+							sketch.noStroke();
+							sketch.fill(0)
+							sketch.ellipse(x+depth,sketch.lineNumberToPx(i),depth*depth)
 						}
 					}
 				});	
