@@ -42,4 +42,7 @@ h2 {
 	.author {
 		page-break-after: unset;
 	}
+	h2 {
+		page-break-before: always;
+	}
 }

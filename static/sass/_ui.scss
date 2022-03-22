@@ -90,3 +90,25 @@ input:checked ~ .ui {
 	bottom: 50%;
 	transform: rotate(-45deg);
 }
+
+.hide_foreground {
+	.pagedjs_pagebox{
+		*, *::after, *::before, a {
+			color: transparent !important;
+		}
+		img {
+			opacity: 0;
+		}
+	}
+}
+
+.hide_background {
+	.pagedjs_pagebox {
+		* {
+			background-color: transparent !important;
+		}
+	}
+	.p5Canvas {
+		display: none !important;
+	}
+}
