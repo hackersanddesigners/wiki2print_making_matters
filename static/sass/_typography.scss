@@ -217,15 +217,10 @@ h1 {
 }
 
 .pagedjs_pages {
-	.chapter {
+	.chapter.invert-type {
 		h3 + p {
 			text-indent: 0 !important;
 		}
-	}
-}
-
-.pagedjs_pages {
-	.chapter.invert-type {
 		p {
 			@include font-authentic(90);
 			@include plumber(

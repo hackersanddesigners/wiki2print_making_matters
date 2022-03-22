@@ -38,6 +38,16 @@ img {
 	border-radius: 1rem;	
 }
 
+h3 + p {
+	text-indent: 0 !important;
+}
+
+.pagedjs_pages .chapter.invert-type {
+	h2 + p {
+		text-indent: 0 !important;
+	}
+}
+
 /*
 Setting named-pages
 https://pagedjs.org/documentation/8-named-page/
