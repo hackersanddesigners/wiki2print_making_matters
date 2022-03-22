@@ -160,13 +160,17 @@ def imageSpreads(soup):
 				print( "missing image for spread?	", spread)
 			else:
 				section = createSpreadSection(soup, img)
-				if(spread.find(class_='thumbcaption')): # is thumbnail, check for caption
-					caption = spread.find(class_='thumbcaption').contents[1]
-					print(spread.find(class_='thumbcaption').contents[1], str(caption))
-					cap_el = soup.new_tag('div', **{"class": 'full-spread-image-caption'}) # outer section
-					cap_el.string = caption
-					section.div.next_sibling.append(cap_el) # append the caption to the right page
-					print(section)
+				caption = spread.find(class_='thumbcaption')
+				if(caption): # is thumbnail, check for caption
+					print("spread", spread)
+					print("thumbcaption", spread.find(class_='thumbcaption'))
+					if( len(caption.contents) > 2):
+						caption_text = caption.contents[1]
+						# print(spread.find(class_='thumbcaption').contents[1], str(caption))
+						cap_el = soup.new_tag('div', **{"class": 'full-spread-image-caption'}) # outer section
+						cap_el.string = caption_text
+						section.div.next_sibling.append(cap_el) # append the caption to the right page
+					# print(section)
 				spread.replace_with(section)
 	if(section.next_sibling.name == 'p'):
 		p = section.next_sibling
