@@ -38,7 +38,20 @@ h2 {
 // 	page-break-before: left;
 // }
 
+.full-page-image {
+	page-break-before: always;
+}
+
+.full-page-image.full-page-image-left {
+	page-break-before: left;
+}
+
+
+
 .chapter-end {
+	h1 {
+		display: none;
+	}
 	.author {
 		page-break-after: unset;
 	}
