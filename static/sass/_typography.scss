@@ -216,10 +216,13 @@ h1 {
 	}
 }
 
-h3 + p {
-	text-indent: 0 !important;
+.pagedjs_pages {
+	.chapter {
+		h3 + p {
+			text-indent: 0 !important;
+		}
+	}
 }
-
 
 .pagedjs_pages {
 	.chapter.invert-type {
@@ -307,10 +310,12 @@ h3 + p {
 		ul,
 		ol,
 		dl {
+			@include font-authentic(90);
 			@include plumber(
-				$baseline: $baseline-ortica,
+				// $baseline: $baseline-ortica,
+				$baseline: $baseline-authentic,
 				$font-size: pt(9.5pt),
-				$leading-top: 2,
+				$leading-top: 0,
 				$leading-bottom: 0,
 			);
 		}

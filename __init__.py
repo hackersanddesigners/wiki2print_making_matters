@@ -167,8 +167,11 @@ def imageSpreads(soup):
 					cap_el.string = caption
 					section.div.next_sibling.append(cap_el) # append the caption to the right page
 					print(section)
-				
 				spread.replace_with(section)
+	if(section.next_sibling.name == 'p'):
+		p = section.next_sibling
+		if len(p.get_text(strip=True)) == 0:
+			p.extract() # Remove empty tag
 	return soup
 
 # Finds span.author tags in the piblication
