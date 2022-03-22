@@ -158,17 +158,21 @@ let ui = () => {
 		history.replaceState(null, null, "?"+queryParams.toString());
 		window.location.reload(false)
 	});
-	const grid_check = document.getElementById("grid");
-	grid_check.addEventListener('change', (event) => {
-		value = grid_check.checked == 1 ? 1 : 0;
-		queryParams.set("grid", value);
-		history.replaceState(null, null, "?"+queryParams.toString());
-		if( value == 0 ) {
-			document.body.classList.remove('grid');
-		} else {
-			document.body.classList.add('grid');
-		}
-	});
+	let checks = ['grid', 'hide_foreground', 'hide_background'];
+	for(let i = 0; i < checks.length; i++ ){
+		let name = checks[i];
+		const el = document.getElementById(name);
+		el.addEventListener('change', (event) => {
+			value = el.checked == 1 ? 1 : 0;
+			queryParams.set(name, value);
+			history.replaceState(null, null, "?"+queryParams.toString());
+			if( value == 0 ) {
+				document.body.classList.remove(name);
+			} else {
+				document.body.classList.add(name);
+			}
+		});
+	}
 }
 
 let loadingMessage = () => {

@@ -20,8 +20,12 @@
 
 {{pagename}}
 {% endblock %} 
-
-{% block body_class %}{% if grid | int != 0 %}grid{% endif %}{% endblock %}
+{% set checks = ['grid', 'hide_foreground', 'hide_background'] %}
+{% block body_class %}
+	{% for check in checks %}
+		{% if request.args.get(check)|int | int != 0 %}{{check}}{% endif %}
+	{% endfor %}
+{% endblock %}
 
 {% block content %}
 <div class="print-ui">
@@ -38,9 +42,11 @@
 				</select>
 			</label>
 		</div>
+		{% for check in checks %}
 		<div class="print-ui-element">
-			<label><input type="checkbox" id="grid" value=1 {% if (grid | int)	 != 0 %}checked{% endif %} />Show baseline grid</label>
+			<label><input type="checkbox" id="{{check}}" value=1 {% if (request.args.get(check)|int )	 != 0 %}checked{% endif %} />Toggle {{check}}</label>
 		</div>
+		{% endfor %}
 	</div>
 </div>
 

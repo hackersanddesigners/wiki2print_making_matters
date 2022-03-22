@@ -191,3 +191,25 @@ mark:after {
 .c7:after {
 	content: "⇝";
 }
+
+.hide_foreground {
+	.pagedjs_pagebox{
+		*, *::after, *::before, a {
+			color: transparent !important;
+		}
+		img {
+			opacity: 0;
+		}
+	}
+}
+
+.hide_background {
+	.pagedjs_pagebox {
+		* {
+			background-color: transparent !important;
+		}
+	}
+	.p5Canvas {
+		display: none !important;
+	}
+}
