@@ -12,15 +12,16 @@
 }
 
 .full-page-image div {
-	width: calc(var(--pagedjs-width) * 2);
+	width: calc(var(--pagedjs-width)*2 - var(--pagedjs-bleed-left) - var(--pagedjs-bleed-right));
 	height: var(--pagedjs-height);
 	display: flex;
 	justify-content: center;
 	align-items: flex-start;
 }
 
+/* compensate for bleeds */
 .pagedjs_right_page .full-page-image div {
-	margin-left: calc(-1 * var(--pagedjs-width));
+	margin-left: calc( calc(-1 * var(--pagedjs-width)) + var(--pagedjs-bleed-left ) + var(--pagedjs-bleed-right ));
 }
 
 .full-page-image img {
