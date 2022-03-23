@@ -162,11 +162,8 @@ def imageSpreads(soup):
 				section = createSpreadSection(soup, img)
 				caption = spread.find(class_='thumbcaption')
 				if(caption): # is thumbnail, check for caption
-					print("spread", spread)
-					print("thumbcaption", spread.find(class_='thumbcaption'))
-					if( len(caption.contents) > 2):
+					if( len(caption.contents) > 1):
 						caption_text = caption.contents[1]
-						# print(spread.find(class_='thumbcaption').contents[1], str(caption))
 						cap_el = soup.new_tag('div', **{"class": 'full-spread-image-caption'}) # outer section
 						cap_el.string = caption_text
 						section.div.next_sibling.append(cap_el) # append the caption to the right page
