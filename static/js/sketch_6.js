@@ -12,8 +12,13 @@ class sketchData {
 	}
 
 	foundTerm(chapter, value, line, side ){
-		this.STATE[chapter][side][line] = value;
-		// console.log(`set "${chapter}" line ${line} to ${this.STATE[chapter][side][line]}`)
+		console.log(value, chapter, line, side, this.STATE[chapter][side][line], this.STATE[chapter][side])
+		// if(	this.STATE[chapter][side][line] ) {
+		// 	this.STATE[chapter][side][line] += value;
+		// } else {
+			this.STATE[chapter][side][line] = value;
+		// }
+		console.log(`set "${chapter}" line ${line} to ${this.STATE[chapter][side][line]} ${value}`)
 	}
 
 	// decrement the 'score' for each line
@@ -25,12 +30,26 @@ class sketchData {
 				const keys = Object.keys(this.STATE[chapter][side]);
 				keys.forEach((line, index) => {
 					if(this.STATE[chapter][side][line] > 0){
-						this.STATE[chapter][side][line] *= 0.8;
+						this.STATE[chapter][side][line] *= 0.5;
+						if(this.STATE[chapter][side][line] < 0.5){
+							this.STATE[chapter][side][line] = 0;
+						}
 						// console.log(`decrement page ${chapter}/${side}, line ${line} to ${this.STATE[chapter][side][line]}`)
 					}
 				} );
 			}
 		}
+	}
+
+	lineScore( line, side ) {
+		let score = 0;
+		for(let chapter = 0; chapter < this.STATE.length; chapter++) {
+			// console.log("chap", chapter, this.STATE[chapter], side, this.STATE[chapter][side] )
+			if(this.STATE[chapter][side][line]){
+				score += this.STATE[chapter][side][line];
+			}		
+		}
+		return score
 	}
 }
 
@@ -73,15 +92,13 @@ function renderSketch(page, num, total, numChapters, currChapter){
 			sketch.ellipseMode(sketch.CENTER);
 			dimensions.bleed = sketch.getDimensions('bleed');
 			dimensions.margin = sketch.getDimensions('margin');
-			let left = dimensions.bleed.left + 2;// start at 2px of the left margin
-			let step = 2; // move line for each chapter 1px to the right
+			let left = dimensions.bleed.left + 6;// start at 2px of the left margin
 			if (!isLeft) {
-				left = sketch.width - dimensions.bleed.right - 2; // start at 2px of the right margin
-				step = - 2; // move line 1px left
+				left = sketch.width - dimensions.bleed.right - 6; // start at 2px of the right margin
 			} 
 
 			sketch.findMarks(page);
-			sketch.drawMarks(left, step, currChapter, numChapters);
+			sketch.drawMarks(left, currChapter, numChapters);
 			sketch.drawPageTop();
 
 			if (!isLeft) {
@@ -90,48 +107,41 @@ function renderSketch(page, num, total, numChapters, currChapter){
 
 		};
 
-		sketch.drawMarks = (left,step, currChapter, numChapters) => {
+		sketch.drawMarks = (left, currChapter, numChapters) => {
 			const s = window._sketch_.STATE; // preserve the data in a global object
-			const keys = Object.keys(s);
-			sketch.strokeWeight(20);
+			// const keys = Object.keys(s);
+			sketch.strokeWeight(10);
 			sketch.noFill();
 			sketch.ellipseMode(sketch.CENTER)
+			sketch.stroke(0)
 			let chapStep = sketch.height / numChapters;
+			
+			let b1 = chapStep * ( currChapter - 1 ); // top of chapter gap
+			let t2 = chapStep * currChapter; // bottom of chapter gap
+			
 			let x = left;
-			keys.forEach((chapter, index) => {
-				// chapter = keys[0]
-				sketch.stroke(0)
-				let t1 = 0;
-				let b1 = chapStep * ( currChapter - 1 ); // top of chapter gap
-				let t2 = chapStep * currChapter; // bottom of chapter gap
-				let b2 = sketch.height;
-				// sketch.line(x, t1, x, b1 );
-				// sketch.line(x, t2, x, b2 );
+			let y = 0;
+			let xx,yy;
+			let side = isLeft ? "left" : "right";
+			let lh = 16; // lineheight
+			sketch.beginShape();
+			sketch.vertex(x, 0);
+			y = sketch.lineNumberToPx(0) - lh;
+			sketch.vertex(x, 0);
+			for( let i = 0; i < 50; i++) {
+				let depth = window._sketch_.lineScore(i, side);
+				if(!isLeft) depth *= -1;
+				yy = sketch.lineNumberToPx(i) + 8;
+				xx = left + depth;
+				sketch.bezierVertex( x, y + 8, xx, yy - 8, xx, yy - 3 );
 
-				let lines = window._sketch_.STATE[chapter][isLeft ? "left" : "right"];
-				// console.log(lines, window._sketch_.STATE)
-				let y = 0;
-				const keys = Object.keys(lines);
-				// console.log(keys)	
-				keys.forEach((i, inx) => {
-					// console.log(lines[i], i)
-					if( lines[i] > 0 ) {
-						let depth = lines[i];
-						if(!isLeft) depth *= -1;
-						let from = sketch.lineNumberToPx(i) - 16
-						let to = from + 32;
-						if ( (from < b1 && to < b1 ) || from > t2 ) { // only if line does not overlap chapter gap
-							// sketch.line(x+depth,from,x+depth,to)
-							sketch.noStroke();
-							sketch.fill(0)
-							sketch.ellipse(x+depth,sketch.lineNumberToPx(i),depth*depth)
-						}
-					}
-				});	
-			});
+				y = yy;
+				x = xx;
+				// if ( (from < b1 && to < b1 ) || from > t2 ) { // only if line does not overlap chapter gap
+				// }
+			};
+			sketch.endShape();
 		}
-
-		
 
 		sketch.drawPageTop = () => {
 			let top = dimensions.bleed.top;
@@ -175,7 +185,7 @@ function renderSketch(page, num, total, numChapters, currChapter){
 				let top = mark.offsetTop; 
 				let line = sketch.topToLine(top);
 				// console.log(`found chapter ${num} at line ${line+1} on page ${page.position + 1}` )
-				this._sketch_.foundTerm(num,8,line,isLeft?"left":"right");
+				this._sketch_.foundTerm(num,6,line,isLeft?"left":"right");
 				// this._sketch_.foundTerm(num,sketch.random(3,6),line - 1,isLeft?"left":"right");
 				// this._sketch_.foundTerm(num,sketch.random(3,6),line + 1,isLeft?"left":"right");
 			}
