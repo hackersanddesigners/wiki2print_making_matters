@@ -30,7 +30,7 @@ class sketchData {
 				const keys = Object.keys(this.STATE[chapter][side]);
 				keys.forEach((line, index) => {
 					if(this.STATE[chapter][side][line] > 0){
-						this.STATE[chapter][side][line] *= 0.5;
+						this.STATE[chapter][side][line] *= 0.8;
 						if(this.STATE[chapter][side][line] < 0.5){
 							this.STATE[chapter][side][line] = 0;
 						}
@@ -127,14 +127,22 @@ function renderSketch(page, num, total, numChapters, currChapter){
 			sketch.beginShape();
 			sketch.vertex(x, 0);
 			y = sketch.lineNumberToPx(0) - lh;
-			sketch.vertex(x, 0);
+			sketch.vertex(x, y);
 			for( let i = 0; i < 50; i++) {
+				// sketch.noFill();
+				// sketch.strokeWeight(1)
+				// sketch.stroke(1)
+				
 				let depth = window._sketch_.lineScore(i, side);
 				if(!isLeft) depth *= -1;
 				yy = sketch.lineNumberToPx(i) + 8;
 				xx = left + depth;
 				sketch.bezierVertex( x, y + 8, xx, yy - 8, xx, yy - 3 );
-
+				sketch.vertex(xx, yy);
+				// sketch.fill(sketch.random(255), sketch.random(255), sketch.random(255))
+				// sketch.noStroke();
+				// sketch.ellipse(x, y + 8, 2 )
+				// sketch.ellipse(xx, yy - 8 )
 				y = yy;
 				x = xx;
 				// if ( (from < b1 && to < b1 ) || from > t2 ) { // only if line does not overlap chapter gap
@@ -185,7 +193,7 @@ function renderSketch(page, num, total, numChapters, currChapter){
 				let top = mark.offsetTop; 
 				let line = sketch.topToLine(top);
 				// console.log(`found chapter ${num} at line ${line+1} on page ${page.position + 1}` )
-				this._sketch_.foundTerm(num,6,line,isLeft?"left":"right");
+				this._sketch_.foundTerm(num, 10,line,isLeft?"left":"right");
 				// this._sketch_.foundTerm(num,sketch.random(3,6),line - 1,isLeft?"left":"right");
 				// this._sketch_.foundTerm(num,sketch.random(3,6),line + 1,isLeft?"left":"right");
 			}
