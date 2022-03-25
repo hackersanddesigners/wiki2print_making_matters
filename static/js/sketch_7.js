@@ -83,7 +83,6 @@ class noiseShape {
     let draw = true;
 		this.s.fill(0);
 		this.s.noStroke();
-		this.s.rectMode(this.s.CORNERS)
 		let o = this.seed_offset;
 		if( !this.is_left ) o += 1000; // offset the noise for the right page
     let y1 = this.y_offset + this.s.noise(cnt+o) * 100
@@ -147,7 +146,11 @@ function renderSketch(page, num, total, numChapters, currChapter){
 			canvas.parent(el);
 			canvas.position(0, 0);
 			canvas.style("z-index", 0);
+			
 			sketch.ellipseMode(sketch.CENTER);
+			sketch.rectMode(sketch.CORNERS);
+			sketch.noiseSeed(1);
+
 			dimensions.bleed = sketch.getDimensions('bleed');
 			dimensions.margin = sketch.getDimensions('margin');
 			
@@ -163,13 +166,15 @@ function renderSketch(page, num, total, numChapters, currChapter){
 				is_left: isLeft,
 				gap_top: gap_top,
 				gap_bottom: gap_bottom,
-				start_left: dimensions.bleed.left,
-				start_right: sketch.width - dimensions.bleed.right
+				start_left: 0,//dimensions.bleed.left,
+				start_right: sketch.width,// - dimensions.bleed.right
 			}
 			
-			shapes.push(new noiseShape(opts, 0, 5, 10, sketch.height/2, 10 ));
-			shapes.push(new noiseShape(opts, 200, 10, 50, 400, 100 ));
-			shapes.push(new noiseShape(opts, sketch.height - 150	, 10, 150, 400, 1000 ));
+			//noiseShape( opts, y_offset, depth, min, max, seed_offset ){
+			shapes.push(new noiseShape(opts, 0, 24, 10, sketch.height/2, 10 ));
+			shapes.push(new noiseShape(opts, 200, 28, 50, 400, 100 ));
+			shapes.push(new noiseShape(opts, sketch.height - 150	, 27, 150, 400, 1000 ));
+			shapes.push(new noiseShape(opts, sketch.height /2	, 23, 150, 250, 2000 ));
 
 			sketch.drawMarks(currChapter, numChapters);
 			sketch.drawPageTop();
@@ -182,9 +187,9 @@ function renderSketch(page, num, total, numChapters, currChapter){
 
 		sketch.drawMarks = (currChapter, numChapters) => {
 			const s = window._sketch_.STATE; // preserve the data in a global object
-			sketch.noFill();
-			sketch.ellipseMode(sketch.CENTER)
-			sketch.stroke(0)
+			// sketch.noFill();
+			// sketch.ellipseMode(sketch.CENTER)
+			// sketch.stroke(0)
 
 			let chapStep = ( sketch.height - dimensions.bleed.top - dimensions.bleed.bottom ) / ( numChapters + 1 );
 			let gap_top = chapStep * currChapter + dimensions.bleed.top; // top of chapter gap
@@ -192,19 +197,23 @@ function renderSketch(page, num, total, numChapters, currChapter){
 
 			
 			// fixed lines 
+			// sketch.noStroke()
+			// sketch.fill(0)	
 			sketch.noStroke()
 			sketch.fill(0)	
-			let w = - 10;
+
 			if( isLeft ) {
 				start = dimensions.bleed.left;// start at 2px of the left margin
+				sketch.rect(start - dimensions.bleed.left, 0, start + 5, gap_top, 10) // from top to gap
+				sketch.rect(start - dimensions.bleed.left, gap_bottom, start + 5, sketch.height, 10) // from gap to bottom	
 			} else  {
-				w = 10;
 				start = sketch.width - dimensions.bleed.right; // start at 2px of the right margin
+				sketch.rect(start - 5, 0, start + dimensions.bleed.right, gap_top, 10) // from top to gap
+				sketch.rect(start - 5, gap_bottom, start + dimensions.bleed.right, sketch.height, 10) // from gap to bottom	
 			}
 
-			// sketch.rect(start, 0, start + w, gap_top, 10) // from top to gap
-			// sketch.rect(start, gap_bottom, start + w, sketch.height, 10) // from gap to bottom
-
+			
+		
 			// random shapes
 			console.log("SHAPES 2", shapes, isLeft?"left":"right")
 			for( let i = 0; i< shapes.length; i++) {
@@ -257,7 +266,7 @@ function renderSketch(page, num, total, numChapters, currChapter){
 
 			// sketch.endShape();
 
-			cnt+= 0.1;
+			cnt+= 1;
 		}
 
 		sketch.drawPageTop = () => {
