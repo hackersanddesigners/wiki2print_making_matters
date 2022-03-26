@@ -14,12 +14,7 @@ class sketchData {
 	}
 
 	foundTerm(chapter, value, line, side ){
-		console.log(value, chapter, line, side, this.STATE[chapter][side][line], this.STATE[chapter][side])
-		// if(	this.STATE[chapter][side][line] ) {
-		// 	this.STATE[chapter][side][line] += value;
-		// } else {
-			this.STATE[chapter][side][line] = value;
-		// }
+		this.STATE[chapter][side][line] = value;
 		console.log(`set "${chapter}" line ${line} to ${this.STATE[chapter][side][line]} ${value}`)
 	}
 
@@ -46,7 +41,6 @@ class sketchData {
 	lineScore( line, side ) {
 		let score = 0;
 		for(let chapter = 0; chapter < this.STATE.length; chapter++) {
-			// console.log("chap", chapter, this.STATE[chapter], side, this.STATE[chapter][side] )
 			if(this.STATE[chapter][side][line]){
 				score += this.STATE[chapter][side][line];
 			}		
@@ -141,6 +135,7 @@ function renderSketch(page, num, total, numChapters, currChapter){
 		
 		sketch.setup = () => {
 			el = page.element;
+			this.el = el;
 			// console.log(el)
 			canvas = sketch.createCanvas(el.offsetWidth, el.offsetHeight, sketch.SVG);
 			canvas.parent(el);
@@ -156,10 +151,11 @@ function renderSketch(page, num, total, numChapters, currChapter){
 			
 			sketch.findMarks(page);
 			
+			this.numLines = Math.floor( ( sketch.height - dimensions.bleed.top - dimensions.bleed.bottom - dimensions.margin.top - dimensions.margin.bottom ) / lineHeight ) 
 
-			let chapStep = ( sketch.height - dimensions.bleed.top - dimensions.bleed.bottom ) / ( numChapters + 1 );
-			let gap_top = chapStep * currChapter + dimensions.bleed.top; // top of chapter gap
-			let gap_bottom = chapStep * ( currChapter + 1 ) + dimensions.bleed.top; // bottom of chapter gap
+			this.chapStep = ( sketch.height - dimensions.bleed.top * 2 - dimensions.bleed.bottom * 2) / ( numChapters );
+			this.gap_top = chapStep * (currChapter - 1) + dimensions.bleed.top * 2; // top of chapter gap
+			this.gap_bottom = chapStep * ( currChapter  ) + dimensions.bleed.top * 2; // bottom of chapter gap
 
 			let opts = {
 				sketch: sketch,
@@ -172,7 +168,7 @@ function renderSketch(page, num, total, numChapters, currChapter){
 			
 			//noiseShape( opts, y_offset, depth, min, max, seed_offset ){
 			shapes.push(new noiseShape(opts, 0, 24, 10, sketch.height/2, 10 ));
-			shapes.push(new noiseShape(opts, 200, 28, 50, 400, 100 ));
+			shapes.push(new noiseShape(opts, 200, 26, 50, 400, 100 ));
 			shapes.push(new noiseShape(opts, sketch.height - 150	, 27, 150, 400, 1000 ));
 			shapes.push(new noiseShape(opts, sketch.height /2	, 23, 150, 250, 2000 ));
 
@@ -186,40 +182,59 @@ function renderSketch(page, num, total, numChapters, currChapter){
 		};
 
 		sketch.drawMarks = (currChapter, numChapters) => {
-			const s = window._sketch_.STATE; // preserve the data in a global object
-			// sketch.noFill();
-			// sketch.ellipseMode(sketch.CENTER)
-			// sketch.stroke(0)
-
-			let chapStep = ( sketch.height - dimensions.bleed.top - dimensions.bleed.bottom ) / ( numChapters + 1 );
-			let gap_top = chapStep * currChapter + dimensions.bleed.top; // top of chapter gap
-			let gap_bottom = chapStep * ( currChapter + 1 ) + dimensions.bleed.top; // bottom of chapter gap
-
-			
-			// fixed lines 
-			// sketch.noStroke()
-			// sketch.fill(0)	
 			sketch.noStroke()
 			sketch.fill(0)	
 
+			let start;
 			if( isLeft ) {
 				start = dimensions.bleed.left;// start at 2px of the left margin
 				sketch.rect(start - dimensions.bleed.left, 0, start + 5, gap_top, 10) // from top to gap
-				sketch.rect(start - dimensions.bleed.left, gap_bottom, start + 5, sketch.height, 10) // from gap to bottom	
+				sketch.rect(start - dimensions.bleed.left, this.gap_bottom, start + 5, sketch.height, 10) // from gap to bottom	
+				if( currChapter == 0 ) { // ugly but ugh.
+					sketch.rect(start - dimensions.bleed.left, 0, start + 5, sketch.height, 10) // from gap to bottom	
+				}
+	
 			} else  {
 				start = sketch.width - dimensions.bleed.right; // start at 2px of the right margin
-				sketch.rect(start - 5, 0, start + dimensions.bleed.right, gap_top, 10) // from top to gap
+				sketch.rect(start - 5, 0, start + dimensions.bleed.right, this.gap_top, 10) // from top to gap
 				sketch.rect(start - 5, gap_bottom, start + dimensions.bleed.right, sketch.height, 10) // from gap to bottom	
+				if( currChapter == 0 ) { // ugly but ugh.
+					sketch.rect(start - 5, 0, start + dimensions.bleed.right, sketch.height, 10) // from gap to bottom	
+				}
 			}
-
 			
-		
-			// random shapes
-			console.log("SHAPES 2", shapes, isLeft?"left":"right")
+			
+			// Update random shapes
 			for( let i = 0; i< shapes.length; i++) {
-				console.log(shapes, shapes[i], cnt)
 				shapes[i].draw(cnt, isLeft)
 			}
+
+			for( let i = 0; i < this.numLines; i++) {
+				let y = sketch.lineNumberToPx(i) - lineHeightHalf;
+				let side = isLeft ? "left" : "right";
+				let depth = window._sketch_.lineScore(i, side);
+				if( depth > 0 ){
+					sketch.drawMark( start, y, depth + 10, y + lineHeight*2 )
+				}
+			}
+			
+			// arrows 
+			let symbol = "";
+			let chap = this.el.querySelector('.chapter')
+			if( chap )  {
+				console.log(chap)
+				symbol = chap.getAttribute('data-symbol');
+			}
+			sketch.textFont("Symbola");
+			sketch.textSize(12);
+			let w = sketch.textWidth(symbol);
+			let l = start;
+			if(!isLeft) {
+				l = start - w
+			}
+			console.log(symbol, l)
+			sketch.text(symbol, l, this.gap_top + (this.gap_bottom-this.gap_top)/2);
+
 			// let x = x2;
 			// let y = 0;
 			// let xx,yy;
@@ -234,7 +249,7 @@ function renderSketch(page, num, total, numChapters, currChapter){
 			// sketch.line(x1,0,x1,gap_top);
 			// sketch.line(x1,gap_bottom,x1,sketch.height);
 			
-			// for( let i = 0; i < 50; i++) {
+			// for( let i = 0; i < this.numLines; i++) {
 			// 	// sketch.noFill();
 			// 	// sketch.strokeWeight(1)
 			// 	// sketch.stroke(1)
@@ -269,7 +284,28 @@ function renderSketch(page, num, total, numChapters, currChapter){
 			cnt+= 1;
 		}
 
+		// start, y, depth, y + 16
+		sketch.drawMark = (x1, y1, w, y2 ) => {
+			sketch.noStroke();
+			sketch.fill(0);	
+			let c1 = 0, c2 =0, c3 = 0, c4 = 0;
+
+			if(y1 > this.gap_top && y1 < this.gap_bottom || y2 > this.gap_top && y2 < this.gap_bottom ) {
+				return;
+			}
+			if( isLeft ) {
+				c2 = 10, c3 = 10;
+				sketch.rect(x1, y1, x1 + w, y2, c1, c2, c3, c4)
+			} else {
+				c1 = 10, c4 = 10;
+				sketch.rect(x1 - w, y1, x1 , y2, c1, c2, c3, c4)
+			}
+		}
+	
+
 		sketch.drawPageTop = () => {
+			sketch.strokeWeight(20);
+			sketch.stroke(0);	
 			let top = dimensions.bleed.top;
 			let bottom = sketch.height - dimensions.bleed.bottom;
 			if( !isLeft ) {
