@@ -28,16 +28,16 @@
 	margin-right: 15mm;
   margin-left: 10mm;
 	@top-center {
-    content: string(chapterTitle);
+		content: string(author);
   }
 }
 
 @page:right {
-  @top-left {
-    content: string(articleTitle); 
+  @top-left { 
+		content: string(chapterTitle);
   }
 	@top-right {
-		content: string(author);
+		content: string(articleTitle);
 	}
 }
 
