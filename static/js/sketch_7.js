@@ -223,8 +223,8 @@ function renderSketch(page, num, total, numChapters, currChapter){
 				}
 			}
 			
+			// arrows in the chapter tab/gap
 			if(!isLeft) {
-				// arrows 
 				let symbol = "";
 				let chap = this.el.querySelector('.chapter')
 				if( chap )  {
@@ -233,7 +233,7 @@ function renderSketch(page, num, total, numChapters, currChapter){
 				if( !symbol ) symbol = "";
 				sketch.textFont("Symbola");
 				sketch.textSize(16);
-				let l = start - sketch.textWidth(symbol);
+				let l = start - sketch.textWidth(symbol) + 8; // + half fontsize
 				sketch.text(symbol, l, this.gap_top + (this.gap_bottom-this.gap_top)/2);
 			}
 

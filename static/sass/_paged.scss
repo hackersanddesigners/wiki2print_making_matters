@@ -17,11 +17,9 @@
   }
 }
 
-@media print {
-	@page {
-		bleed: 4mm;
-		marks: crop;
-	}
+@page {
+	bleed: 4mm;
+	marks: crop;
 }
 
 @page:left {
