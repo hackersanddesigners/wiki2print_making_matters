@@ -10,12 +10,11 @@ class sketchData {
 			this.STATE[chapter]['left'] = [] // keep "score" for each line
 			this.STATE[chapter]['right'] = [] // keep "score" for each line
 		}
-		// console.log( this.STATE)
 	}
 
 	foundTerm(chapter, value, line, side ){
 		this.STATE[chapter][side][line] = value;
-		console.log(`set "${chapter}" line ${line} to ${this.STATE[chapter][side][line]} ${value}`)
+		// console.log(`set "${chapter}" line ${line} to ${this.STATE[chapter][side][line]} ${value}`)
 	}
 
 	// decrement the 'score' for each line
@@ -153,9 +152,15 @@ function renderSketch(page, num, total, numChapters, currChapter){
 			
 			this.numLines = Math.floor( ( sketch.height - dimensions.bleed.top - dimensions.bleed.bottom - dimensions.margin.top - dimensions.margin.bottom ) / lineHeight ) 
 
-			this.chapStep = ( sketch.height - dimensions.bleed.top * 2 - dimensions.bleed.bottom * 2) / ( numChapters );
-			this.gap_top = chapStep * (currChapter - 1) + dimensions.bleed.top * 2; // top of chapter gap
-			this.gap_bottom = chapStep * ( currChapter  ) + dimensions.bleed.top * 2; // bottom of chapter gap
+			// the chapter tab starts/stops a bit below/above the adges of the page
+			// this.chapStep = ( sketch.height - dimensions.bleed.top * 2 - dimensions.bleed.bottom * 2) / ( numChapters );
+			// this.gap_top = chapStep * (currChapter - 1) + dimensions.bleed.top * 2; // top of chapter gap
+			// this.gap_bottom = chapStep * ( currChapter  ) + dimensions.bleed.top * 2; // bottom of chapter gap
+
+			// chapter tab uses all space 
+			this.chapStep = ( sketch.height - dimensions.bleed.top - dimensions.bleed.bottom ) / ( numChapters );
+			this.gap_top = chapStep * (currChapter - 1) + dimensions.bleed.top; // top of chapter gap
+			this.gap_bottom = chapStep * ( currChapter  ) + dimensions.bleed.top; // bottom of chapter gap
 
 			let opts = {
 				sketch: sketch,
@@ -218,68 +223,19 @@ function renderSketch(page, num, total, numChapters, currChapter){
 				}
 			}
 			
-			// arrows 
-			let symbol = "";
-			let chap = this.el.querySelector('.chapter')
-			if( chap )  {
-				symbol = chap.getAttribute('data-symbol');
-			}
-			if( !symbol ) symbol = "";
-			sketch.textFont("Symbola");
-			sketch.textSize(12);
-			let w = sketch.textWidth(symbol);
-			let l = start;
 			if(!isLeft) {
-				l = start - w
+				// arrows 
+				let symbol = "";
+				let chap = this.el.querySelector('.chapter')
+				if( chap )  {
+					symbol = chap.getAttribute('data-symbol');
+				}
+				if( !symbol ) symbol = "";
+				sketch.textFont("Symbola");
+				sketch.textSize(16);
+				let l = start - sketch.textWidth(symbol);
+				sketch.text(symbol, l, this.gap_top + (this.gap_bottom-this.gap_top)/2);
 			}
-			console.log(symbol, l)
-			sketch.text(symbol, l, this.gap_top + (this.gap_bottom-this.gap_top)/2);
-
-			// let x = x2;
-			// let y = 0;
-			// let xx,yy;
-			// let side = isLeft ? "left" : "right";
-			// let lh = 16; // lineheight
-			// sketch.beginShape();
-			// sketch.vertex(x, 0);
-			// y = sketch.lineNumberToPx(0) - lh/2;
-			// sketch.vertex(x, y);
-			// sketch.strokeWeight(4);
-
-			// sketch.line(x1,0,x1,gap_top);
-			// sketch.line(x1,gap_bottom,x1,sketch.height);
-			
-			// for( let i = 0; i < this.numLines; i++) {
-			// 	// sketch.noFill();
-			// 	// sketch.strokeWeight(1)
-			// 	// sketch.stroke(1)
-				
-			// 	let depth = window._sketch_.lineScore(i, side);
-			// 	if(!isLeft) depth *= -1;
-			// 	yy = sketch.lineNumberToPx(i) + 8;
-			// 	xx = x2 + depth;
-			// 	// sketch.bezierVertex( x, y + lh/2, xx, yy - 10, xx, yy - 3 );
-			// 	// sketch.vertex(xx, yy);
-
-			// 	sketch.bezierVertex( x, y + lh/2, xx, yy - lh/2, xx, yy );
-			// 	sketch.vertex(xx, yy);
-			// 	console.log(depth)
-			// 	// if(depth >= 8 ) {
-			// 	// 	sketch.ellipse(x2 + 1, yy, 2 );
-			// 	// } else if(depth <= -8) {
-			// 	// 	sketch.ellipse(x2 -1, yy, 2 );
-			// 	// }
-			// 	// sketch.fill(sketch.random(255), sketch.random(255), sketch.random(255))
-			// 	// sketch.noStroke();
-			// 	// sketch.ellipse(x, y + 8, 2 )
-			// 	// sketch.ellipse(xx, yy - 8 )
-			// 	y = yy;
-			// 	x = xx;
-			// 	// if ( (from < gap_top && to < gap_top ) || from > gap_bottom ) { // only if line does not overlap chapter gap
-			// 	// }
-			// };
-
-			// sketch.endShape();
 
 			cnt+= 1;
 		}
@@ -348,8 +304,6 @@ function renderSketch(page, num, total, numChapters, currChapter){
 				let line = sketch.topToLine(top);
 				// console.log(`found chapter ${num} at line ${line+1} on page ${page.position + 1}` )
 				this._sketch_.foundTerm(num, 8,line,isLeft?"left":"right");
-				// this._sketch_.foundTerm(num,sketch.random(3,6),line - 1,isLeft?"left":"right");
-				// this._sketch_.foundTerm(num,sketch.random(3,6),line + 1,isLeft?"left":"right");
 			}
 		}
 		sketch.pointer = (x, y, d, invert) => {
