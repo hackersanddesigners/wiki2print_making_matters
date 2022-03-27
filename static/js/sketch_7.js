@@ -222,9 +222,9 @@ function renderSketch(page, num, total, numChapters, currChapter){
 			let symbol = "";
 			let chap = this.el.querySelector('.chapter')
 			if( chap )  {
-				console.log(chap)
 				symbol = chap.getAttribute('data-symbol');
 			}
+			if( !symbol ) symbol = "";
 			sketch.textFont("Symbola");
 			sketch.textSize(12);
 			let w = sketch.textWidth(symbol);
