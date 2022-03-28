@@ -225,16 +225,16 @@ function renderSketch(page, num, total, numChapters, currChapter){
 			
 			// arrows in the chapter tab/gap
 			if(!isLeft) {
-				let symbol = "";
 				let chap = this.el.querySelector('.chapter')
 				if( chap )  {
-					symbol = chap.getAttribute('data-symbol');
+					let symbol = chap.getAttribute('data-symbol');
+					if( !symbol ) symbol = "";
+					sketch.textFont("Symbola");
+					sketch.textSize(16);
+					sketch.textAlign(sketch.RIGHT)
+					let l = start - 10;//sketch.textWidth(symbol); 
+					sketch.text(symbol, l, this.gap_top + (this.gap_bottom-this.gap_top)/2  + 8);// + half fontsize
 				}
-				if( !symbol ) symbol = "";
-				sketch.textFont("Symbola");
-				sketch.textSize(16);
-				let l = start - sketch.textWidth(symbol) + 8; // + half fontsize
-				sketch.text(symbol, l, this.gap_top + (this.gap_bottom-this.gap_top)/2);
 			}
 
 			cnt+= 1;
