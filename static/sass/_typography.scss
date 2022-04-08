@@ -212,7 +212,8 @@ h1 {
 	.chapter > p:first-child {
 		margin-top: 0;
 		padding-top: 0;
-		text-indent: 0 !important;
+		// text-indent: 0 !important;
+		// commented after revisions from astrit.
 	}
 }
 
@@ -411,5 +412,3 @@ h1 {
 	line-height: 8.8pt;
 	padding-left: 2cm;
 }
-
-
