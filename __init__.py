@@ -163,10 +163,17 @@ def imageSpreads(soup):
 				caption = spread.find(class_='thumbcaption')
 				if(caption): # is thumbnail, check for caption
 					if( len(caption.contents) > 1):
-						caption_text = caption.contents[1]
-						cap_el = soup.new_tag('div', **{"class": 'full-spread-image-caption'}) # outer section
-						cap_el.string = caption_text
-						section.div.next_sibling.append(cap_el) # append the caption to the right page
+						# caption_text = caption.contents[1]
+						# cap_el = soup.new_tag('div', **{"class": 'full-spread-image-caption'}) # outer section
+						# cap_el.string = caption_text
+						# section.div.next_sibling.append(cap_el) # append the caption to the right page
+						# print()
+						# print(caption)
+						# print(caption.contents)
+						to_remove = caption.find(class_='magnify')
+						to_remove.extract()
+						caption['class'] = 'full-spread-image-caption'
+						section.div.next_sibling.append(caption) # append the caption to the right page
 					# print(section)
 			spread.replace_with(section)
 			if(section.next_sibling and section.next_sibling.name == 'p'):
@@ -202,4 +209,3 @@ def add_author_names_toc(soup):
 						print("Error copying author name(s)")
 					# print("item",	toc_2_item)
 	return soup
-

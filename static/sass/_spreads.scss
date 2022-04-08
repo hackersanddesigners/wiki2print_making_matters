@@ -42,6 +42,7 @@
 .full-spread-image-section .full-page-image div.full-spread-image-caption {
 	height: auto;
 	position: absolute;
+	display: block;
 	right: calc(calc(var(--pagedjs-bleed-right) + var(--pagedjs-margin-right)));
 	bottom: calc(var(--pagedjs-bleed-bottom) + var(--pagedjs-margin-bottom));
 	width: calc(var(--pagedjs-width) - var(--pagedjs-bleed-right) - var(--pagedjs-margin-right) - var(--pagedjs-bleed-left) - var(--pagedjs-margin-left));
