@@ -176,8 +176,10 @@ mark {
 
 mark:after {
 	@include font-symbola();
-	line-height: 10pt;
 	font-size: 10pt;
+	// line-height: 10pt;
+	line-height: 0;
+	// so as not to create unequal line heights in footnotes
 }
 // ⇢ ⇛ ⟴ ↦ ↬ ↣ ⇝
 .c1:after {
@@ -201,4 +203,3 @@ mark:after {
 .c7:after {
 	content: "⇝";
 }
-
