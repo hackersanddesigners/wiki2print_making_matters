@@ -27,7 +27,8 @@
 			}
 			& > ul {
 				li {
-					padding-left: 0.5cm;
+					// padding-left: 0.5cm;
+					padding-left: 0.25cm;
 				}
 			} 
 		}
@@ -111,6 +112,7 @@
 			text-align: right;
 			top: 0;
 			right: 0;
+			// right: -1em;
 		}
 	}
 	.tocsection-9 .toclevel-2:nth-child(3) .tocauthor {
