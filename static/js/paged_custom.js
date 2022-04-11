@@ -32,8 +32,8 @@ class MM_Handler extends Paged.Handler {
 		content.querySelector("#mw-toc-heading").remove();
 	}
 
-	beforePageLayout(){
-		this.alignImagesToBaseline(12);
+	afterPageLayout(pageElement, page, breakTokenage){
+		return this.alignImagesToBaseline(pageElement, 12);
 	}
 
 	afterPreview(pages) {
@@ -81,13 +81,14 @@ class MM_Handler extends Paged.Handler {
 		});
 	}
 
-	alignImagesToBaseline (gridSize) {
-		const imgs = document.querySelectorAll('img:not(.full)');
+	alignImagesToBaseline (elem, gridSize) {
+		const imgs = elem.querySelectorAll('img:not(.full)');
 		let rythm = gridSize / 72 * 96; // convert pt to px
 		imgs.forEach((img, i) => {
 			img.parentNode.parentNode.classList.add("image-container") // add class to p remove margins
-			let newH = Math.floor( img.clientHeight / rythm );
-			img.style.height = newH * rythm + "px";
+			let newH = Math.floor( img.clientHeight / rythm ) * rythm;
+			img.style.height = newH + "px";
+			console.log(`resized image from ${img.clientHeight} to ${newH} (${img.src})`);
 		});
 	};
 
