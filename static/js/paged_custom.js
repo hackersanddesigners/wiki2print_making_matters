@@ -85,10 +85,11 @@ class MM_Handler extends Paged.Handler {
 		const imgs = elem.querySelectorAll('img:not(.full)');
 		let rythm = gridSize / 72 * 96; // convert pt to px
 		imgs.forEach((img, i) => {
-			img.parentNode.parentNode.classList.add("image-container") // add class to p remove margins
-			let newH = Math.floor( img.clientHeight / rythm ) * rythm;
+			// img.parentNode.parentNode.classList.add("image-container") // add class to p remove margins
+			let oldH = img.clientHeight;
+			let newH = Math.floor( oldH / rythm ) * rythm;
 			img.style.height = newH + "px";
-			console.log(`resized image from ${img.clientHeight} to ${newH} (${img.src})`);
+			console.log(`resized image from ${oldH} to ${newH} (${img.src})`);
 		});
 	};
 

@@ -35,7 +35,9 @@ img {
 	height: auto;
 	max-width: 85%;
 	max-height: 80%;
-	border-radius: 1rem;	
+	border-radius: 1rem;
+	display: block;
+	margin: 12pt auto;	
 }
 
 h3 + p {
@@ -102,10 +104,10 @@ a.image {
 	a {
 		display: block;
 	}
-	img {
-		display: block;
-		margin: 12pt auto;
-	}
+	// img {
+	// 	display: block;
+	// 	margin: 12pt auto;
+	// }
 
 }
 
@@ -159,6 +161,10 @@ Available color: red, green, brown
 /* thumbnails, keep caption and image on same page */
 .thumb {
 	break-inside: avoid;
+}
+
+.thumbinner {
+	margin: 0 auto;
 }
 
 /* mediawiki gives thumbs an inline fixed width */
