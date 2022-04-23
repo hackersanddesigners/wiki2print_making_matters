@@ -161,7 +161,7 @@ function renderSketch(page, num, total, numChapters, currChapter){
 			this.chapStep = ( sketch.height - dimensions.bleed.top - dimensions.bleed.bottom ) / ( numChapters );
 			this.gap_top = chapStep * (currChapter - 1) + dimensions.bleed.top; // top of chapter gap
 			this.gap_bottom = chapStep * ( currChapter  ) + dimensions.bleed.top; // bottom of chapter gap
-
+			
 			let opts = {
 				sketch: sketch,
 				is_left: isLeft,
@@ -195,7 +195,7 @@ function renderSketch(page, num, total, numChapters, currChapter){
 				start = dimensions.bleed.left;// start at 2px of the left margin
 				sketch.rect(start - dimensions.bleed.left, 0, start + 5, gap_top, 10) // from top to gap
 				sketch.rect(start - dimensions.bleed.left, this.gap_bottom, start + 5, sketch.height, 10) // from gap to bottom	
-				if( currChapter == 0 ) { // ugly but ugh.
+				if( currChapter == 0 || currChapter > numChapters) { // ugly but ugh.
 					sketch.rect(start - dimensions.bleed.left, 0, start + 5, sketch.height, 10) // from gap to bottom	
 				}
 	
@@ -203,7 +203,7 @@ function renderSketch(page, num, total, numChapters, currChapter){
 				start = sketch.width - dimensions.bleed.right; // start at 2px of the right margin
 				sketch.rect(start - 5, 0, start + dimensions.bleed.right, this.gap_top, 10) // from top to gap
 				sketch.rect(start - 5, gap_bottom, start + dimensions.bleed.right, sketch.height, 10) // from gap to bottom	
-				if( currChapter == 0 ) { // ugly but ugh.
+				if( currChapter == 0 || currChapter > numChapters ) { // ugly but ugh.
 					sketch.rect(start - 5, 0, start + dimensions.bleed.right, sketch.height, 10) // from gap to bottom	
 				}
 			}

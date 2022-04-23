@@ -38,7 +38,7 @@ class MM_Handler extends Paged.Handler {
 
 	afterPreview(pages) {
 		this.t0 = performance.now();
-		let numChapters = document.querySelectorAll('.chapter-title').length;	//document.querySelectorAll("h1 .mw-headline").length;
+		let numChapters = document.querySelectorAll(".chapter-title").length;//, h1 .mw-headline").length;
 		let currChapter = 0;
 		this.addPageNumbersToToc();
 		if(typeof renderSketch === 'function'){
@@ -50,7 +50,8 @@ class MM_Handler extends Paged.Handler {
 
 	renderBackground( pages, currChapter, numChapters, idx ) {
 		let page = pages[idx]; 
-		let hasH1 = page.area.querySelector(".chapter-title");
+		// the chapter-end selector is for preventing the tab in the border for the last chapter
+		let hasH1 = page.area.querySelector(".chapter-title, .chapter-end h1");//, h1 .mw-headline"); 
 		if (hasH1) currChapter++;
 		if(typeof renderSketch === 'function'){
 			renderSketch( page, idx + 1, pages.length, numChapters, currChapter );
