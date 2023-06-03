@@ -12,6 +12,7 @@ from config import config as conf
 WIKI         = conf['wiki']['base_url']
 SUBJECT_NS   = conf['wiki']['subject_ns']
 STYLES_NS    = conf['wiki']['styles_ns']
+SCRIPTS_NS   = conf['wiki']['scripts_ns']
 
 sketch = 0
 
@@ -30,6 +31,7 @@ def pagedjs(pagename):
 		WIKI,
 		SUBJECT_NS,
 		STYLES_NS,
+		SCRIPTS_NS,
 		pagename,
 	)
 	sketch = request.args.get("sketch", default=0, type=int)
@@ -57,6 +59,7 @@ def filtered_html(pagename):
 		WIKI,
 		SUBJECT_NS,
 		STYLES_NS,
+		SCRIPTS_NS,
 		pagename,
 	)
 	return filter(flask.render_template(
